@@ -51,7 +51,7 @@ const TimelineSection = () => {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto p-12">
+    <div className="max-w-3xl mx-auto p-12 w-full">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Election Process Timeline</h2>
         <p className="text-slate-500 mt-3 text-lg">A clear overview of how the democratic process unfolds.</p>
@@ -87,6 +87,171 @@ const TimelineSection = () => {
           })}
         </div>
       </div>
+    </div>
+  );
+};
+
+const LearnSection = () => {
+  const [activeTopic, setActiveTopic] = useState(null);
+
+  const topics = [
+    {
+      id: 'registration',
+      title: 'Voter Registration',
+      icon: UserPlus,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-100',
+      details: {
+        title: 'How to Register to Vote',
+        steps: [
+          'Visit the National Voters Service Portal (NVSP).',
+          'Fill out Form 6 online or offline for new voter registration.',
+          'Upload required passport-size photographs and documents.',
+          'Track your application status using the reference ID.'
+        ],
+        tip: 'Register at least one month before the election to ensure your name appears on the roll.'
+      }
+    },
+    {
+      id: 'documents',
+      title: 'Required Documents',
+      icon: FileText,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-100',
+      details: {
+        title: 'Documents Needed for Voting',
+        steps: [
+          'Valid EPIC (Voter ID Card) issued by the Election Commission.',
+          'If EPIC is not available, bring a recognized photo ID (e.g., Aadhaar, Passport).',
+          'Address proof might be required if registering for the first time.',
+          'Check the official ECI website for the full list of accepted documents.'
+        ],
+        tip: 'Always carry the original physical copy of your ID, as digital copies might not be accepted at all booths.'
+      }
+    },
+    {
+      id: 'process',
+      title: 'Voting Process',
+      icon: Vote,
+      color: 'text-green-600',
+      bgColor: 'bg-green-100',
+      details: {
+        title: 'Step-by-Step Voting Process',
+        steps: [
+          'Present your ID to the First Polling Officer for identity verification.',
+          'Get your left index finger inked by the Second Polling Officer.',
+          'Hand over your voter slip to the Third Polling Officer.',
+          'Proceed to the voting compartment and press the button on the EVM.'
+        ],
+        tip: 'After pressing the button, verify your vote by checking the printed slip inside the VVPAT machine.'
+      }
+    },
+    {
+      id: 'timeline',
+      title: 'Election Timeline',
+      icon: CalendarDays,
+      color: 'text-amber-600',
+      bgColor: 'bg-amber-100',
+      details: {
+        title: 'Key Phases of the Election',
+        steps: [
+          'Announcement of election dates and Model Code of Conduct.',
+          'Filing of nominations by candidates and scrutiny of papers.',
+          'Public campaigning by political parties until 48 hours before polling.',
+          'Voting day, followed by secure counting and declaration of results.'
+        ],
+        tip: 'Pay attention to the campaign deadline; all rallies and public meetings must stop 48 hours prior to voting.'
+      }
+    },
+    {
+      id: 'counting',
+      title: 'Vote Counting',
+      icon: BarChart3,
+      color: 'text-indigo-600',
+      bgColor: 'bg-indigo-100',
+      details: {
+        title: 'How Votes are Counted',
+        steps: [
+          'EVMs are securely transported to designated counting centers.',
+          'Seals are verified in the presence of candidate representatives.',
+          'Votes recorded in the Control Unit are tallied round by round.',
+          'Final results are declared by the Returning Officer.'
+        ],
+        tip: 'You can track live counting trends and final results directly on the official ECI portal.'
+      }
+    }
+  ];
+
+  return (
+    <div className="max-w-5xl mx-auto p-8 md:p-12 w-full">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">Learn About Elections</h2>
+        <p className="text-slate-500 mt-4 text-lg max-w-2xl mx-auto">
+          Explore essential topics to understand your rights, requirements, and the step-by-step process of participating in a democracy.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+        {topics.map((topic) => {
+          const Icon = topic.icon;
+          const isActive = activeTopic?.id === topic.id;
+          return (
+            <button
+              key={topic.id}
+              onClick={() => setActiveTopic(isActive ? null : topic)}
+              className={`p-6 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center gap-4 hover:-translate-y-1 ${
+                isActive 
+                  ? 'border-[#0014CC] bg-blue-50/50 shadow-md ring-1 ring-[#0014CC]' 
+                  : 'border-slate-200 bg-white shadow-sm hover:shadow-md hover:border-slate-300'
+              }`}
+            >
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 ${topic.bgColor} ${topic.color}`}>
+                <Icon size={24} />
+              </div>
+              <h3 className={`font-semibold text-[15px] leading-snug ${isActive ? 'text-[#0014CC]' : 'text-slate-800'}`}>
+                {topic.title}
+              </h3>
+            </button>
+          );
+        })}
+      </div>
+
+      {activeTopic && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
+             <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeTopic.bgColor} ${activeTopic.color}`}>
+                <activeTopic.icon size={24} />
+             </div>
+             <h3 className="text-2xl font-bold text-slate-900">{activeTopic.details.title}</h3>
+          </div>
+          
+          <div className="mb-8">
+            <h4 className="text-[13px] font-bold text-slate-400 uppercase tracking-wider mb-4">Key Steps</h4>
+            <ul className="space-y-4">
+              {activeTopic.details.steps.map((step, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                   <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 text-sm font-bold mt-0.5">
+                     {idx + 1}
+                   </div>
+                   <p className="text-slate-700 leading-relaxed text-[15px]">{step}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-[#F4F4FD] border border-indigo-100 rounded-2xl p-5 flex gap-4">
+             <div className="bg-[#0014CC] w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+                <Lightbulb size={20} className="text-white" />
+             </div>
+             <div>
+               <h4 className="font-bold text-slate-900 text-[15px]">Pro Tip</h4>
+               <p className="text-slate-600 text-[14px] mt-1 leading-relaxed">
+                 {activeTopic.details.tip}
+               </p>
+             </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -315,7 +480,7 @@ const HelpSection = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)] bg-white">
+    <div className="flex flex-1 h-full w-full bg-white overflow-hidden">
       {/* Sidebar */}
       <div className="w-[320px] bg-[#F4F4F9] border-r border-slate-200 flex flex-col hidden md:flex flex-shrink-0">
         <div className="p-6 flex-1 overflow-y-auto">
@@ -354,22 +519,10 @@ const HelpSection = () => {
             </button>
           </div>
         </div>
-        {/* User Profile */}
-        <div className="p-6 border-t border-slate-200">
-          <div className="flex items-center gap-3 bg-[#EAEAF3] p-4 rounded-xl">
-             <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center shadow-sm">
-               <User size={20} className="text-white" />
-             </div>
-             <div>
-               <p className="text-sm font-bold text-slate-800 leading-tight">Arjun Sharma</p>
-               <p className="text-[13px] text-slate-600 mt-0.5">Verified Citizen</p>
-             </div>
-          </div>
-        </div>
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col bg-white">
+      <div className="flex-1 flex flex-col bg-white overflow-hidden">
         {/* Chat Header */}
         <div className="h-[72px] border-b border-slate-200 px-8 flex items-center justify-between bg-white flex-shrink-0">
           <div className="flex items-center gap-4">
@@ -438,7 +591,7 @@ const HelpSection = () => {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('help');
+  const [activeTab, setActiveTab] = useState('learn');
   const [language, setLanguage] = useState('EN');
   const [theme, setTheme] = useState('light');
 
@@ -498,28 +651,40 @@ export default function App() {
       <main className="flex-1 w-full flex flex-col overflow-y-auto">
         {activeTab === 'help' && <HelpSection />}
         {activeTab === 'timeline' && <TimelineSection />}
+        {activeTab === 'learn' && <LearnSection />}
         
-        {activeTab !== 'help' && activeTab !== 'timeline' && (
+        {activeTab !== 'help' && activeTab !== 'timeline' && activeTab !== 'learn' && (
           <div className="p-12 text-center py-32 min-h-[600px]">
             <h2 className="text-3xl font-extrabold mb-4 capitalize">{activeTab} Section</h2>
-            <p className="text-slate-500">Navigate to the Help section to see the Chatbot, or Timeline for the election process.</p>
+            <p className="text-slate-500">Navigate to the Learn, Timeline, or Help section.</p>
             <div className="mt-8 flex items-center justify-center gap-4">
               <button 
-                onClick={() => setActiveTab('help')}
+                onClick={() => setActiveTab('learn')}
                 className="px-6 py-2.5 bg-[#0014CC] text-white rounded-lg font-medium hover:bg-blue-800 transition-colors"
               >
-                Go to Help
+                Go to Learn
               </button>
               <button 
-                onClick={() => setActiveTab('timeline')}
+                onClick={() => setActiveTab('help')}
                 className="px-6 py-2.5 bg-slate-100 text-slate-800 rounded-lg font-medium hover:bg-slate-200 transition-colors"
               >
-                View Timeline
+                Go to Help
               </button>
             </div>
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer className="bg-[#F8FAFC] border-t border-slate-200 py-6 px-8 flex-shrink-0 w-full z-10">
+          <div className="max-w-3xl">
+              <h3 className="font-bold text-slate-900 text-[15px] mb-2">ElectionGuide AI</h3>
+              <p className="text-[13px] text-slate-500 leading-relaxed">
+                  © 2024 Election Commission Assistant. All rights reserved.<br/>
+                  For educational purposes only. Empowering every citizen with accurate information.
+              </p>
+          </div>
+      </footer>
     </div>
   );
 }
