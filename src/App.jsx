@@ -2,22 +2,137 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Home, BookOpen, Clock, HelpCircle, MessageSquare, User, 
   UserPlus, ListOrdered, MapPin, Share2, Printer, Bot, Mic, Paperclip, Send, 
-  Lightbulb, History
+  Lightbulb, History, Megaphone, FileText, Users, CalendarDays, BarChart3, CheckCircle2,
+  Globe, Moon, Sun, UserCheck, Vote, Gavel, SlidersVertical
 } from 'lucide-react';
+
+const TimelineSection = () => {
+  const steps = [
+    {
+      id: 1,
+      title: "Announcement",
+      description: "The Election Commission announces the election schedule, invoking the Model Code of Conduct.",
+      icon: Megaphone,
+      color: "bg-blue-100 text-blue-600",
+      borderColor: "border-blue-200"
+    },
+    {
+      id: 2,
+      title: "Nomination",
+      description: "Candidates file their nomination papers and affidavits. Scrutiny and withdrawal follows.",
+      icon: FileText,
+      color: "bg-purple-100 text-purple-600",
+      borderColor: "border-purple-200"
+    },
+    {
+      id: 3,
+      title: "Campaign",
+      description: "Political parties and candidates campaign to reach out to voters. Ends 48 hours before voting.",
+      icon: Users,
+      color: "bg-amber-100 text-amber-600",
+      borderColor: "border-amber-200"
+    },
+    {
+      id: 4,
+      title: "Voting Day",
+      description: "Registered voters cast their ballots at designated polling stations using EVMs and VVPATs.",
+      icon: CalendarDays,
+      color: "bg-green-100 text-green-600",
+      borderColor: "border-green-200"
+    },
+    {
+      id: 5,
+      title: "Results",
+      description: "Votes are counted under strict security, and the results are officially declared.",
+      icon: BarChart3,
+      color: "bg-indigo-100 text-indigo-600",
+      borderColor: "border-indigo-200"
+    }
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto p-12">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Election Process Timeline</h2>
+        <p className="text-slate-500 mt-3 text-lg">A clear overview of how the democratic process unfolds.</p>
+      </div>
+
+      <div className="relative">
+        <div className="absolute left-[27px] top-4 bottom-4 w-1 bg-slate-100 rounded-full"></div>
+
+        <div className="space-y-10">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div key={step.id} className="relative flex items-start gap-6 group">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 border-4 border-white shadow-sm transition-transform duration-300 group-hover:scale-110 ${step.color}`}>
+                  <Icon size={24} />
+                </div>
+                
+                <div className={`flex-1 bg-white border ${step.borderColor} p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow`}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-sm font-bold text-slate-400">Phase {step.id}</span>
+                    <h3 className="text-xl font-bold text-slate-800">{step.title}</h3>
+                  </div>
+                  <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                </div>
+                
+                {index < 2 && (
+                   <div className="absolute left-[38px] top-10 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-sm z-20">
+                      <CheckCircle2 size={20} className="text-green-500" />
+                   </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const HelpSection = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
       sender: 'assistant',
-      text: "Hi! I'm your Civic Assistant. Are you a first-time voter, or do you just need a quick refresher on the voting steps?",
+      text: "Hi! I'm your Civic Assistant. How can I assist you with your voting journey today?",
       options: [
-        { label: 'I am a first-time voter', value: 'first_time' },
-        { label: 'Show voting steps', value: 'voting_steps' }
+        { id: 'first_time', label: 'I am a first-time voter' },
+        { id: 'voting_steps', label: 'Show voting steps' },
+        { id: 'polling_booth', label: 'Find polling booth' }
       ]
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  
+  const handleOptionClick = (optionId, optionLabel) => {
+    setMessages(prev => {
+      const updated = [...prev];
+      updated[updated.length - 1] = { ...updated[updated.length - 1], options: undefined };
+      
+      let type = 'quick_steps';
+      if (optionId === 'first_time') type = 'beginner_guide';
+      else if (optionId === 'polling_booth') type = 'polling_booth_map';
+      
+      return [
+        ...updated,
+        { id: Date.now(), sender: 'user', text: optionLabel },
+        { id: Date.now() + 1, sender: 'assistant', type }
+      ];
+    });
+  };
+
+  const handleSendMessage = () => {
+    if (!inputValue.trim()) return;
+    
+    setMessages(prev => [
+      ...prev,
+      { id: Date.now(), sender: 'user', text: inputValue },
+      { id: Date.now() + 1, sender: 'assistant', text: "I'm a demo assistant. Please select from the options provided or use the sidebar." }
+    ]);
+    setInputValue('');
+  };
   
   const messagesEndRef = useRef(null);
 
@@ -29,169 +144,167 @@ const HelpSection = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleOptionClick = (option) => {
-    // Add user message
-    const userMsg = {
-      id: Date.now(),
-      sender: 'user',
-      text: option.label || option.text
-    };
-    
-    setMessages(prev => {
-      // Remove options from the last message
-      const updatedPrev = prev.map((msg, index) => 
-        index === prev.length - 1 ? { ...msg, options: null } : msg
-      );
-      return [...updatedPrev, userMsg];
-    });
-    
-    // Simulate assistant response
-    setTimeout(() => {
-      let assistantResponse = {};
-      
-      if (option.value === 'first_time') {
-        assistantResponse = {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          type: 'beginner_guide',
-        };
-      } else if (option.value === 'voting_steps') {
-        assistantResponse = {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          type: 'quick_steps',
-        };
-      } else if (option.value === 'polling_booth') {
-         assistantResponse = {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          text: "To find your polling booth, you can search using your EPIC number on the official voter portal.",
-          options: [
-             { label: 'Show voting steps', value: 'voting_steps' }
-          ]
-        };
-      } else {
-        // Fallback for custom text
-        assistantResponse = {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          text: "I can help guide you through the election process. Do you need the beginner guide or just the quick steps?",
-          options: [
-            { label: 'I am a first-time voter', value: 'first_time' },
-            { label: 'Show voting steps', value: 'voting_steps' }
-          ]
-        };
-      }
-      
-      setMessages(prev => [...prev, assistantResponse]);
-    }, 600);
-  };
-
-  const handleSend = () => {
-    if (!inputValue.trim()) return;
-    handleOptionClick({ text: inputValue, value: 'custom_input' });
-    setInputValue('');
-  };
-
   const renderMessageContent = (msg) => {
-    if (msg.type === 'beginner_guide' || msg.type === 'quick_steps') {
+    if (msg.text && msg.sender === 'assistant') {
       return (
-        <div className="w-full max-w-3xl bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mt-2">
-          <div className="flex items-center gap-2 mb-4">
-             <div className="w-1 h-6 bg-[#0014CC] rounded-full"></div>
-             <h3 className="text-2xl font-medium text-[#0014CC]">
-               {msg.type === 'beginner_guide' ? 'Beginner Voting Guide' : 'How to Vote'}
-             </h3>
+        <div className="flex flex-col items-start w-full">
+          <div className="rounded-[20px] p-5 bg-white border border-slate-200 text-slate-800 text-[16px] leading-relaxed w-fit shadow-sm">
+            {msg.text}
           </div>
-          <p className="text-slate-600 mb-6">
-            {msg.type === 'beginner_guide' 
-              ? 'A complete step-by-step guide for new voters.' 
-              : 'A step-by-step guide for your visit to the polling station.'}
-          </p>
+          {msg.options && (
+            <div className="flex flex-wrap gap-3 mt-4">
+              {msg.options.map(opt => (
+                <button
+                  key={opt.id}
+                  onClick={() => handleOptionClick(opt.id, opt.label)}
+                  className="px-5 py-2.5 rounded-full border border-[#0014CC] text-[#0014CC] text-sm font-semibold hover:bg-[#0014CC] hover:text-white transition-colors bg-white shadow-sm"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
 
-          <div className="flex items-center gap-2 text-slate-700 font-semibold mb-4 pb-2">
-            <ListOrdered size={20} className="text-[#0014CC]" />
-            <span>{msg.type === 'beginner_guide' ? 'The Complete Process' : 'The Polling Station Process'}</span>
+    if (msg.type === 'beginner_guide') {
+      return (
+        <div className="w-full max-w-3xl">
+          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+            Beginner's Election Guide
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-[#0014CC] transition-colors cursor-pointer group">
+              <div className="w-12 h-12 bg-blue-100 text-[#0014CC] rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <FileText size={24} />
+              </div>
+              <h4 className="text-[17px] font-bold text-slate-800 mb-2">1. Registration</h4>
+              <p className="text-slate-600 text-[14px] leading-relaxed">Register in the electoral roll and get your Voter ID (EPIC).</p>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-purple-600 transition-colors cursor-pointer group">
+              <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <UserCheck size={24} />
+              </div>
+              <h4 className="text-[17px] font-bold text-slate-800 mb-2">2. Verification</h4>
+              <p className="text-slate-600 text-[14px] leading-relaxed">Verify your name on the voter list and find your polling booth.</p>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-green-600 transition-colors cursor-pointer group">
+              <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Vote size={24} />
+              </div>
+              <h4 className="text-[17px] font-bold text-slate-800 mb-2">3. Polling Day</h4>
+              <p className="text-slate-600 text-[14px] leading-relaxed">Visit the booth, get verified, and cast your vote on the EVM.</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
 
-          <div className="space-y-6">
-            {msg.type === 'beginner_guide' && (
-              <>
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0">1</div>
-                  <div>
-                    <h4 className="font-bold text-slate-800">Registration</h4>
-                    <p className="text-slate-600 text-sm mt-1">Register online via the National Voters' Service Portal or fill Form 6. You need passport-size photos and ID/address proof.</p>
-                  </div>
+    if (msg.type === 'polling_booth_map') {
+      return (
+        <div className="w-full max-w-3xl">
+          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+            Nearby Polling Booths
+          </div>
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm w-full">
+            <h3 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <MapPin className="text-[#E84E1B]" /> Polling Booths Near You
+            </h3>
+            <div className="w-full h-80 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 relative">
+               <iframe 
+                 width="100%" 
+                 height="100%" 
+                 style={{ border: 0 }} 
+                 loading="lazy" 
+                 allowFullScreen 
+                 src="https://www.google.com/maps?q=polling+station+near+me&output=embed"
+                 title="Google Maps Polling Booths"
+               ></iframe>
+            </div>
+            <div className="mt-4 flex items-center justify-between">
+              <p className="text-slate-500 text-[13px]">Showing approximate locations based on your current area.</p>
+              <button className="px-5 py-2.5 bg-[#0014CC] text-white rounded-lg text-sm font-bold shadow-sm hover:bg-blue-800 transition-colors">
+                 Get Directions
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (msg.type === 'quick_steps') {
+      return (
+        <div className="w-full max-w-3xl">
+          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+            ElectionGuide AI Response
+          </div>
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm w-full">
+            <div className="flex items-start gap-4 mb-6">
+               <div className="w-1 h-8 bg-[#0014CC]"></div>
+               <div>
+                 <h3 className="text-2xl font-medium text-[#0014CC] leading-none">How to Vote</h3>
+                 <p className="text-slate-600 mt-2">A step-by-step guide for your visit to the polling station.</p>
+               </div>
+            </div>
+
+            <div className="flex items-center gap-2 text-slate-700 font-semibold mb-6">
+              <ListOrdered size={20} className="text-slate-500" />
+              <span>The Polling Station Process</span>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#E5E7FA] text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0 text-sm">1</div>
+                <div>
+                  <h4 className="font-bold text-slate-800">First Polling Officer:</h4>
+                  <p className="text-slate-600 text-[15px] mt-1">
+                    Verification of your name in the electoral roll and checking your ID proof (like EPIC card).
+                  </p>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0">2</div>
-                  <div>
-                    <h4 className="font-bold text-slate-800">Verification</h4>
-                    <p className="text-slate-600 text-sm mt-1">Verify your name in the electoral roll once your application is processed. You will receive your EPIC (Voter ID) card.</p>
-                  </div>
+              </div>
+              
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#E5E7FA] text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0 text-sm">2</div>
+                <div>
+                  <h4 className="font-bold text-slate-800">Second Polling Officer:</h4>
+                  <p className="text-slate-600 text-[15px] mt-1">
+                    Inking of your left index finger, providing a voter slip, and taking your signature in the register.
+                  </p>
                 </div>
-              </>
-            )}
+              </div>
 
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-indigo-100 text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0">
-                {msg.type === 'beginner_guide' ? '3' : '1'}
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#E5E7FA] text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0 text-sm">3</div>
+                <div>
+                  <h4 className="font-bold text-slate-800">Third Polling Officer:</h4>
+                  <p className="text-slate-600 text-[15px] mt-1">
+                    Checking the ink mark and taking the voter slip. You will then be directed to the voting compartment.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-slate-800">First Polling Officer:</h4>
-                <p className="text-slate-600 text-sm mt-1">
-                  Verification of your name in the electoral roll and checking your ID proof (like EPIC card).
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-indigo-100 text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0">
-                {msg.type === 'beginner_guide' ? '4' : '2'}
-              </div>
-              <div>
-                <h4 className="font-bold text-slate-800">Second Polling Officer:</h4>
-                <p className="text-slate-600 text-sm mt-1">
-                  Inking of your left index finger, providing a voter slip, and taking your signature in the register.
-                </p>
+
+              <div className="flex gap-4">
+                <div className="w-8 h-8 rounded-full bg-[#E5E7FA] text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0 text-sm">4</div>
+                <div>
+                  <h4 className="font-bold text-slate-800">Record your Vote:</h4>
+                  <p className="text-slate-600 text-[15px] mt-1">
+                    Press the blue button on the Electronic Voting Machine (EVM) next to the candidate of your choice.
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-indigo-100 text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0">
-                {msg.type === 'beginner_guide' ? '5' : '3'}
+            <div className="mt-8 bg-[#F4F4FD] border border-[#E0E0F8] rounded-xl p-5 flex gap-4">
+              <div className="bg-[#0014CC] w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm">
+                 <Lightbulb size={20} className="text-white" />
               </div>
               <div>
-                <h4 className="font-bold text-slate-800">Third Polling Officer:</h4>
-                <p className="text-slate-600 text-sm mt-1">
-                  Checking the ink mark and taking the voter slip. You will then be directed to the voting compartment.
+                <h4 className="text-[15px] text-slate-800">Pro Tip: Verify your Vote</h4>
+                <p className="text-slate-600 text-[15px] mt-1 leading-relaxed">
+                  After pressing the button, wait for the red light on the VVPAT machine. A slip will be visible for 7 seconds showing your selected candidate.
                 </p>
               </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="w-8 h-8 rounded-full bg-indigo-100 text-[#0014CC] flex items-center justify-center font-bold flex-shrink-0">
-                {msg.type === 'beginner_guide' ? '6' : '4'}
-              </div>
-              <div>
-                <h4 className="font-bold text-slate-800">Record your Vote:</h4>
-                <p className="text-slate-600 text-sm mt-1">
-                  Press the blue button on the Electronic Voting Machine (EVM) next to the candidate of your choice.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 bg-[#F4F4FD] border border-indigo-100 rounded-xl p-4 flex gap-4">
-            <div className="bg-[#0014CC] w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm mt-1">
-               <Lightbulb size={24} className="text-white" />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-800">Pro Tip: Verify your Vote</h4>
-              <p className="text-slate-600 text-sm mt-1">
-                After pressing the button, wait for the red light on the VVPAT machine. A slip will be visible for 7 seconds showing your selected candidate.
-              </p>
             </div>
           </div>
         </div>
@@ -202,49 +315,47 @@ const HelpSection = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px-132px)] min-h-[600px] bg-white border-t border-slate-200">
+    <div className="flex h-[calc(100vh-64px)] bg-white">
       {/* Sidebar */}
-      <div className="w-80 bg-[#F4F4F9] border-r border-slate-200 flex flex-col hidden md:flex flex-shrink-0">
+      <div className="w-[320px] bg-[#F4F4F9] border-r border-slate-200 flex flex-col hidden md:flex flex-shrink-0">
         <div className="p-6 flex-1 overflow-y-auto">
-          <h2 className="text-xl font-bold text-slate-900 mb-6">Get Started</h2>
+          <h2 className="text-[22px] font-bold text-slate-900 mb-6 tracking-tight">Get Started</h2>
           
           <div className="space-y-3 mb-10">
-            <button onClick={() => handleOptionClick({label: 'I am a first-time voter', value: 'first_time'})} className="w-full bg-white border border-slate-200 hover:border-[#0014CC] hover:text-[#0014CC] hover:shadow-sm transition-all rounded-xl p-4 flex items-center gap-4 text-left group">
+            <button 
+              onClick={() => handleOptionClick('first_time', 'I am a first-time voter')}
+              className="w-full bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] transition-colors">
               <UserPlus className="text-[#0014CC]" size={20} />
-              <span className="font-medium text-slate-700 group-hover:text-[#0014CC]">I am a first-time voter</span>
+              <span className="text-[15px] text-slate-700 font-medium">I am a first-time voter</span>
             </button>
-            <button onClick={() => handleOptionClick({label: 'Show voting steps', value: 'voting_steps'})} className="w-full bg-white border border-slate-200 hover:border-[#0014CC] hover:text-[#0014CC] hover:shadow-sm transition-all rounded-xl p-4 flex items-center gap-4 text-left group">
-              <ListOrdered className="text-[#0014CC]" size={20} />
-              <span className="font-medium text-slate-700 group-hover:text-[#0014CC]">Show voting steps</span>
+            <button 
+              onClick={() => handleOptionClick('voting_steps', 'Show voting steps')}
+              className="w-full bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] transition-colors">
+              <ListOrdered className="text-slate-600" size={20} />
+              <span className="text-[15px] text-slate-700 font-medium">Show voting steps</span>
             </button>
-            <button onClick={() => handleOptionClick({label: 'Find polling booth', value: 'polling_booth'})} className="w-full bg-white border border-slate-200 hover:border-[#0014CC] hover:text-[#0014CC] hover:shadow-sm transition-all rounded-xl p-4 flex items-center gap-4 text-left group">
-              <MapPin className="text-[#E84E1B]" size={20} />
-              <span className="font-medium text-slate-700 group-hover:text-[#0014CC]">Find polling booth</span>
+            <button 
+              onClick={() => handleOptionClick('polling_booth', 'Find polling booth')}
+              className="w-full bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] transition-colors">
+              <MapPin className="text-[#8B7355]" size={20} />
+              <span className="text-[15px] text-slate-700 font-medium">Find polling booth</span>
             </button>
-          </div>
-
-          <div className="flex items-center gap-2 mb-4 border-b border-slate-200 pb-2">
-             <span className="text-[11px] font-bold tracking-widest text-slate-500 uppercase">Recent Inquiries</span>
-             <History size={14} className="text-slate-400 ml-auto" />
-          </div>
-          
-          <div className="space-y-5 mt-4">
-             {[
-               "Voter ID Card registration process",
-               "Election dates for Bangalore South",
-               "Check my name in electoral roll",
-               "Candidates in Mumbai North-West"
-             ].map((inquiry, idx) => (
-               <div key={idx} className="flex items-start gap-3 cursor-pointer group">
-                 <MessageSquare size={18} className="text-slate-500 group-hover:text-[#0014CC]" />
-                 <span className="text-[15px] text-slate-700 group-hover:text-[#0014CC] leading-tight">{inquiry}</span>
-               </div>
-             ))}
+            <button className="w-full bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] transition-colors">
+              <UserCheck className="text-[#0014CC]" size={20} />
+              <span className="text-[15px] text-slate-700 font-medium">Check name in roll</span>
+            </button>
+            <button className="w-full bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] transition-colors">
+              <Gavel className="text-slate-600" size={20} />
+              <span className="text-[15px] text-slate-700 font-medium">Model Code of Conduct</span>
+            </button>
+            <button className="w-full bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] transition-colors">
+              <SlidersVertical className="text-[#8B7355]" size={20} />
+              <span className="text-[15px] text-slate-700 font-medium">How does EVM work?</span>
+            </button>
           </div>
         </div>
-
         {/* User Profile */}
-        <div className="p-6">
+        <div className="p-6 border-t border-slate-200">
           <div className="flex items-center gap-3 bg-[#EAEAF3] p-4 rounded-xl">
              <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center shadow-sm">
                <User size={20} className="text-white" />
@@ -260,59 +371,33 @@ const HelpSection = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col bg-white">
         {/* Chat Header */}
-        <div className="h-20 border-b border-slate-200 px-8 flex items-center justify-between bg-white flex-shrink-0">
+        <div className="h-[72px] border-b border-slate-200 px-8 flex items-center justify-between bg-white flex-shrink-0">
           <div className="flex items-center gap-4">
-             <div className="w-10 h-10 bg-[#0014CC] rounded-full flex items-center justify-center shadow-sm">
+             <div className="w-10 h-10 bg-[#0014CC] rounded-xl flex items-center justify-center shadow-sm">
                 <Bot size={22} className="text-white" />
              </div>
              <div>
-               <h2 className="font-bold text-lg text-slate-900 leading-tight">Civic Assistant</h2>
+               <h2 className="font-bold text-[17px] text-slate-900 leading-tight">Civic Assistant</h2>
                <div className="flex items-center gap-1.5 mt-0.5">
-                 <span className="w-2 h-2 rounded-full bg-[#0014CC]"></span>
-                 <p className="text-[#0014CC] text-[13px] font-medium">Online & ready to help</p>
+                 <span className="w-2 h-2 rounded-full bg-slate-500"></span>
+                 <p className="text-slate-500 text-[13px] font-medium">Online & ready to help</p>
                </div>
              </div>
-          </div>
-          <div className="flex items-center gap-6 text-slate-600">
-             <button className="hover:text-[#0014CC] transition-colors"><Share2 size={22} /></button>
-             <button className="hover:text-[#0014CC] transition-colors"><Printer size={22} /></button>
           </div>
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-8 space-y-8 bg-white scroll-smooth pb-20">
-          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-8">
-            ElectionGuide AI Response
-          </div>
-
+        <div className="flex-1 overflow-y-auto p-12 space-y-8 bg-white scroll-smooth pb-20">
           {messages.map((msg) => (
-            <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300 w-full`}>
-              <div className={`max-w-[85%] ${msg.sender === 'user' ? '' : 'w-full'}`}>
-                {msg.text && (
-                  <div className={`rounded-2xl p-4 ${
-                    msg.sender === 'user' 
-                      ? 'bg-[#F0F0F8] text-slate-800 ml-auto w-fit text-[15px]' 
-                      : 'text-slate-700 text-[15px] mb-2'
-                  }`}>
+            <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} w-full`}>
+              <div className={`${msg.sender === 'user' ? 'max-w-[70%]' : 'w-full'}`}>
+                {msg.text && msg.sender === 'user' && (
+                  <div className="rounded-[20px] p-5 bg-[#F1F3F5] text-slate-800 text-[16px] leading-relaxed w-fit ml-auto">
                     {msg.text}
                   </div>
                 )}
                 
                 {msg.sender === 'assistant' && renderMessageContent(msg)}
-                
-                {msg.options && (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {msg.options.map((opt) => (
-                      <button
-                        key={opt.value}
-                        onClick={() => handleOptionClick(opt)}
-                        className="px-5 py-2.5 bg-white border border-[#0014CC] text-[#0014CC] hover:bg-[#F0F0F8] rounded-full text-[15px] font-medium transition-all shadow-sm active:scale-[0.98]"
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           ))}
@@ -320,28 +405,30 @@ const HelpSection = () => {
         </div>
 
         {/* Chat Input */}
-        <div className="p-6 bg-white flex-shrink-0 w-full border-t border-slate-100 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
-          <div className="max-w-4xl mx-auto relative flex items-center">
-             <input 
-               type="text" 
-               value={inputValue}
-               onChange={(e) => setInputValue(e.target.value)}
-               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-               placeholder="Ask a question about voting..."
-               className="w-full h-14 pl-6 pr-32 rounded-[2rem] border-2 border-slate-200 focus:border-[#0014CC] focus:ring-0 transition-all outline-none text-slate-700 text-[15px]"
-             />
-             <div className="absolute right-16 flex items-center gap-4 text-slate-500">
-                <button className="hover:text-slate-800"><Mic size={20} /></button>
-                <button className="hover:text-slate-800"><Paperclip size={20} /></button>
+        <div className="px-12 py-6 bg-white flex-shrink-0 w-full border-t border-slate-100 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)]">
+          <div className="max-w-4xl mx-auto flex gap-4 items-center">
+             <div className="flex-1 relative">
+               <input 
+                 type="text" 
+                 value={inputValue}
+                 onChange={(e) => setInputValue(e.target.value)}
+                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                 placeholder="Ask a question about voting..."
+                 className="w-full h-[60px] pl-6 pr-24 rounded-full border border-slate-300 focus:border-[#0014CC] focus:ring-0 transition-all outline-none text-slate-700 text-[15px]"
+               />
+               <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4 text-slate-500">
+                  <button className="hover:text-slate-800"><Mic size={20} /></button>
+                  <button className="hover:text-slate-800"><Paperclip size={20} /></button>
+               </div>
              </div>
              <button 
-               onClick={handleSend}
-               className="absolute right-2 w-10 h-10 bg-[#0014CC] hover:bg-blue-800 rounded-full flex items-center justify-center text-white shadow-md transition-colors"
+               onClick={handleSendMessage}
+               className="w-[60px] h-[60px] bg-[#0014CC] hover:bg-blue-800 rounded-[14px] flex items-center justify-center text-white shadow-md transition-colors flex-shrink-0"
              >
-                <Send size={18} className="ml-0.5" />
+                <Send size={22} className="ml-0.5" />
              </button>
           </div>
-          <p className="text-center text-[11px] text-slate-500 mt-4">
+          <p className="text-center text-[12px] text-slate-500 mt-5">
             ElectionGuide AI can make mistakes. Verify important info at the Official ECI Portal.
           </p>
         </div>
@@ -351,12 +438,14 @@ const HelpSection = () => {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('help'); // default to help for this task
+  const [activeTab, setActiveTab] = useState('help');
+  const [language, setLanguage] = useState('EN');
+  const [theme, setTheme] = useState('light');
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="h-screen overflow-hidden bg-[#F9FAFB] flex flex-col font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 flex-shrink-0">
         <div className="px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 font-black text-xl tracking-tight text-slate-900">
             ElectionGuide AI
@@ -383,52 +472,54 @@ export default function App() {
              ))}
           </nav>
 
-          <div className="flex items-center gap-4">
-             <button className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-600 hover:bg-slate-50">
-               <User size={16} />
+          <div className="flex items-center gap-3">
+             <button 
+               onClick={() => setLanguage(language === 'EN' ? 'HI' : 'EN')}
+               className="flex items-center gap-2 border border-slate-200 rounded-full px-4 py-1.5 text-[13px] font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+             >
+               <Globe size={16} className="text-slate-500" />
+               <span className="flex items-center">
+                 <span className={language === 'EN' ? 'text-slate-800' : 'text-slate-400'}>EN</span>
+                 <span className="mx-1 text-slate-300">|</span>
+                 <span className={language === 'HI' ? 'text-slate-800' : 'text-slate-400'}>HI</span>
+               </span>
              </button>
-             <button className="bg-[#0014CC] hover:bg-blue-800 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors">
-               Start Guide
+             <button 
+               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+               className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors"
+             >
+               {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
              </button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-[1600px] mx-auto bg-white">
+      <main className="flex-1 w-full flex flex-col overflow-y-auto">
         {activeTab === 'help' && <HelpSection />}
+        {activeTab === 'timeline' && <TimelineSection />}
         
-        {activeTab !== 'help' && (
-          <div className="p-12 text-center py-32">
+        {activeTab !== 'help' && activeTab !== 'timeline' && (
+          <div className="p-12 text-center py-32 min-h-[600px]">
             <h2 className="text-3xl font-extrabold mb-4 capitalize">{activeTab} Section</h2>
-            <p className="text-slate-500">Navigate to the Help section to see the Chatbot.</p>
-            <button 
-              onClick={() => setActiveTab('help')}
-              className="mt-8 px-6 py-2 bg-[#0014CC] text-white rounded-lg font-medium"
-            >
-              Go to Help
-            </button>
+            <p className="text-slate-500">Navigate to the Help section to see the Chatbot, or Timeline for the election process.</p>
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <button 
+                onClick={() => setActiveTab('help')}
+                className="px-6 py-2.5 bg-[#0014CC] text-white rounded-lg font-medium hover:bg-blue-800 transition-colors"
+              >
+                Go to Help
+              </button>
+              <button 
+                onClick={() => setActiveTab('timeline')}
+                className="px-6 py-2.5 bg-slate-100 text-slate-800 rounded-lg font-medium hover:bg-slate-200 transition-colors"
+              >
+                View Timeline
+              </button>
+            </div>
           </div>
         )}
       </main>
-
-      {/* Footer */}
-      {activeTab === 'help' && (
-        <footer className="bg-[#F8FAFC] border-t border-slate-200 py-8 px-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-sm text-slate-500 gap-6">
-                <div className="max-w-xl">
-                    <p className="font-bold text-slate-900 text-base mb-2">ElectionGuide AI</p>
-                    <p className="leading-relaxed">© 2024 Election Commission Assistant. All rights reserved.<br/>For educational purposes only. Empowering every citizen with accurate information.</p>
-                </div>
-                <div className="flex flex-wrap gap-6 md:gap-8 font-medium">
-                    <a href="#" className="hover:text-slate-800 transition-colors">Privacy Policy</a>
-                    <a href="#" className="hover:text-slate-800 transition-colors">Accessibility Settings</a>
-                    <a href="#" className="hover:text-slate-800 transition-colors">Contact Support</a>
-                    <a href="#" className="text-[#E84E1B] hover:underline transition-all">Official ECI Portal</a>
-                </div>
-            </div>
-        </footer>
-      )}
     </div>
   );
 }
