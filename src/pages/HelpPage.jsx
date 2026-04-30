@@ -67,9 +67,9 @@ const HelpPage = ({ language = 'EN' }) => {
       { id: Date.now(), sender: 'user', text: userMsg }
     ]);
 
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
-    if (!apiKey || apiKey === 'your_actual_gemini_key_here') {
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY || window.env?.VITE_GEMINI_API_KEY;
+    
+    if (!apiKey || apiKey === 'your_actual_gemini_key_here' || apiKey === 'VITE_GEMINI_API_KEY_PLACEHOLDER') {
       setTimeout(() => {
         setMessages(prev => [
           ...prev,
@@ -175,8 +175,8 @@ const HelpPage = ({ language = 'EN' }) => {
     }
 
     if (msg.type === 'polling_booth_map') {
-      const mapsKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-      const mapSrc = mapsKey && mapsKey !== 'your_actual_google_maps_key_here'
+      const mapsKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || window.env?.VITE_GOOGLE_MAPS_API_KEY;
+      const mapSrc = mapsKey && mapsKey !== 'your_actual_google_maps_key_here' && mapsKey !== 'VITE_GOOGLE_MAPS_API_KEY_PLACEHOLDER'
         ? `https://www.google.com/maps/embed/v1/search?key=${mapsKey}&q=polling+station+near+me`
         : `https://www.google.com/maps?q=polling+station+near+me&output=embed`;
 

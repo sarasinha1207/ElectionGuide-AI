@@ -23,6 +23,9 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy a custom Nginx configuration to handle React routing and Cloud Run's port
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Cloud Run injects a PORT environment variable. 
-# We use a shell command to replace the port in the config file before starting Nginx.
-CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+# Cloud Run injects environment variables at runtime.
+# We use sed to replace placeholders in the built index.html before starting Nginx.
+CMD sed -i -e "s|VITE_GEMINI_API_KEY_PLACEHOLDER|${VITE_GEMINI_API_KEY}|g" /usr/share/nginx/html/index.html && \
+    sed -i -e "s|VITE_GOOGLE_MAPS_API_KEY_PLACEHOLDER|${VITE_GOOGLE_MAPS_API_KEY}|g" /usr/share/nginx/html/index.html && \
+    sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && \
+    nginx -g 'daemon off;'
