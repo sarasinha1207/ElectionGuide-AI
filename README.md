@@ -6,6 +6,8 @@
 ![Google Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Flash-orange)
 ![Google Maps](https://img.shields.io/badge/Google_Maps-Embedded-green)
 
+**🔴 Live Deployment URL:** [https://electionguide-ai-772585005795.asia-south1.run.app/](https://electionguide-ai-772585005795.asia-south1.run.app/)
+
 ElectionGuide AI is a dynamic, multilingual smart assistant built to simplify the democratic process for first-time voters and citizens. It acts as a comprehensive, AI-powered civic companion that guides users through voter registration, polling day procedures, and electoral rights.
 
 ---
@@ -53,9 +55,11 @@ The application makes meaningful and efficient use of the Google ecosystem:
 ### Security
 * **Environment Variables:** All API keys (`VITE_GEMINI_API_KEY`, `VITE_GOOGLE_MAPS_API_KEY`) are strictly managed via `.env` files.
 * **Git Integrity:** `.env` is explicitly ignored in `.gitignore` and `.dockerignore` to prevent accidental credential leaks during deployment.
+* **Safe Runtime Secret Injection:** Instead of baking secrets into the Docker image during Cloud Build (which exposes them in the artifact registry), we utilize a secure Nginx entrypoint `sed` script. This injects Google Cloud Run runtime secrets directly into the frontend `window.env` object right as the server spins up, keeping the static image completely credential-free.
 
 ### Efficiency
-* **Dockerized Deployment:** The project includes a highly optimized, multi-stage `Dockerfile` using Nginx to serve static React build files, ensuring minimal memory footprint for Google Cloud Run deployments.
+* **Node 22 Optimized Build:** Uses the latest Node.js 22 Alpine environment to ensure compatibility with Vite's high-speed compilation engine.
+* **Dockerized Deployment:** The project includes a highly optimized, multi-stage `Dockerfile` using Nginx to serve static React build files, ensuring a minimal memory footprint (allowing Cloud Run to scale to zero efficiently).
 * **Serverless Google Calendar Integration:** Reminders are handled via deep-links rather than heavy API OAuth flows, saving bandwidth and user friction.
 
 ### Accessibility
