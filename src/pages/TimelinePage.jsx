@@ -14,7 +14,7 @@ const TimelinePage = ({ language = 'EN' }) => {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto p-12 flex-1 h-full overflow-y-auto">
+    <div className="max-w-3xl mx-auto p-12 flex-1 h-full overflow-y-auto hide-scrollbar">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{t.title}</h2>
         <p className="text-slate-500 dark:text-slate-400 mt-3 text-lg">{t.subtitle}</p>
@@ -36,12 +36,23 @@ const TimelinePage = ({ language = 'EN' }) => {
                 </div>
 
                 {/* Content Card */}
-                <div className={`flex-1 bg-white dark:bg-slate-800 border ${border} p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow`}>
+                <div className={`flex-1 bg-white dark:bg-slate-800 border ${border} p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative`}>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-sm font-bold text-slate-400 dark:text-slate-500">{t.phasePrefix} {index + 1}</span>
                     <h3 className="text-xl font-bold text-slate-800 dark:text-white">{step.title}</h3>
                   </div>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{step.desc}</p>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{step.desc}</p>
+                  
+                  {/* Google Calendar Reminder Button */}
+                  <a
+                    href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(t.reminderTitle + ': ' + step.title)}&details=${encodeURIComponent(t.reminderDesc + step.desc)}&dates=20260515T090000Z/20260515T100000Z`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-lg transition-colors border border-slate-200 dark:border-slate-600"
+                  >
+                    <CalendarDays size={16} className="text-[#0014CC] dark:text-[#4d5fff]" />
+                    {t.reminderBtn}
+                  </a>
                 </div>
 
                 {/* Success Checkmark overlay (simulating progress) */}

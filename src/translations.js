@@ -143,6 +143,9 @@ export const translations = {
       title: 'Election Process Timeline',
       subtitle: 'A clear overview of how the democratic process unfolds.',
       phasePrefix: 'Phase',
+      reminderBtn: 'Set Reminder',
+      reminderTitle: 'Election Reminder',
+      reminderDesc: 'Important election phase: ',
       steps: [
         { title: 'Announcement', desc: 'The Election Commission announces the election schedule, invoking the Model Code of Conduct.' },
         { title: 'Nomination', desc: 'Candidates file their nomination papers and affidavits. Scrutiny and withdrawal follows.' },
@@ -359,6 +362,9 @@ export const translations = {
       title: 'चुनाव प्रक्रिया समयरेखा',
       subtitle: 'लोकतांत्रिक प्रक्रिया कैसे सामने आती है, इसका स्पष्ट अवलोकन।',
       phasePrefix: 'चरण',
+      reminderBtn: 'रिमाइंडर सेट करें',
+      reminderTitle: 'चुनाव रिमाइंडर',
+      reminderDesc: 'महत्वपूर्ण चुनाव चरण: ',
       steps: [
         { title: 'घोषणा', desc: 'चुनाव आयोग चुनाव कार्यक्रम की घोषणा करता है, आदर्श आचार संहिता लागू करता है।' },
         { title: 'नामांकन', desc: 'उम्मीदवार अपना नामांकन पत्र और हलफनामा दाखिल करते हैं। जांच और वापसी होती है।' },

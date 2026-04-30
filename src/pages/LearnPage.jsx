@@ -153,7 +153,7 @@ const LearnPage = ({ language = 'EN' }) => {
   const tContent = textDict[language];
 
   return (
-    <div className="max-w-5xl mx-auto p-8 md:p-12 w-full flex flex-col items-center flex-1 h-full overflow-y-auto transition-colors">
+    <div className="max-w-5xl mx-auto p-8 md:p-12 w-full flex flex-col items-center flex-1 h-full overflow-y-auto transition-colors hide-scrollbar">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{tContent.title}</h2>
         <p className="text-slate-500 dark:text-slate-400 mt-4 text-lg max-w-2xl mx-auto leading-relaxed">
