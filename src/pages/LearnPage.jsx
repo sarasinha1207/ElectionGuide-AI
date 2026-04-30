@@ -30,7 +30,7 @@ const textDict = {
 
 const topicsData = [
   {
-    id: 'registration', icon: UserPlus, color: 'text-blue-600', bgColor: 'bg-blue-100',
+    id: 'registration', icon: UserPlus, color: 'text-blue-600 dark:text-blue-400', bgColor: 'bg-blue-100 dark:bg-blue-900/30',
     EN: {
       title: 'Voter Registration', detailsTitle: 'How to Register to Vote',
       steps: ['Visit the National Voters Service Portal (NVSP).', 'Fill out Form 6 online or offline for new voter registration.', 'Upload required passport-size photographs and documents.', 'Track your application status using the reference ID.'],
@@ -43,7 +43,7 @@ const topicsData = [
     }
   },
   {
-    id: 'documents', icon: FileText, color: 'text-purple-600', bgColor: 'bg-purple-100',
+    id: 'documents', icon: FileText, color: 'text-purple-600 dark:text-purple-400', bgColor: 'bg-purple-100 dark:bg-purple-900/30',
     EN: {
       title: 'Required Documents', detailsTitle: 'Documents Needed for Voting',
       steps: ['Valid EPIC (Voter ID Card) issued by the Election Commission.', 'If EPIC is not available, bring a recognized photo ID (e.g., Aadhaar, Passport).', 'Address proof might be required if registering for the first time.', 'Check the official ECI website for the full list of accepted documents.'],
@@ -56,7 +56,7 @@ const topicsData = [
     }
   },
   {
-    id: 'process', icon: Vote, color: 'text-green-600', bgColor: 'bg-green-100',
+    id: 'process', icon: Vote, color: 'text-green-600 dark:text-green-400', bgColor: 'bg-green-100 dark:bg-green-900/30',
     EN: {
       title: 'Voting Process', detailsTitle: 'Step-by-Step Voting Process',
       steps: ['Present your ID to the First Polling Officer for identity verification.', 'Get your left index finger inked by the Second Polling Officer.', 'Hand over your voter slip to the Third Polling Officer.', 'Proceed to the voting compartment and press the button on the EVM.'],
@@ -69,7 +69,7 @@ const topicsData = [
     }
   },
   {
-    id: 'timeline', icon: CalendarDays, color: 'text-amber-600', bgColor: 'bg-amber-100',
+    id: 'timeline', icon: CalendarDays, color: 'text-amber-600 dark:text-amber-400', bgColor: 'bg-amber-100 dark:bg-amber-900/30',
     EN: {
       title: 'Election Timeline', detailsTitle: 'Key Phases of the Election',
       steps: ['Announcement of election dates and Model Code of Conduct.', 'Filing of nominations by candidates and scrutiny of papers.', 'Public campaigning by political parties until 48 hours before polling.', 'Voting day, followed by secure counting and declaration of results.'],
@@ -82,7 +82,7 @@ const topicsData = [
     }
   },
   {
-    id: 'counting', icon: BarChart3, color: 'text-indigo-600', bgColor: 'bg-indigo-100',
+    id: 'counting', icon: BarChart3, color: 'text-indigo-600 dark:text-indigo-400', bgColor: 'bg-indigo-100 dark:bg-indigo-900/30',
     EN: {
       title: 'Vote Counting', detailsTitle: 'How Votes are Counted',
       steps: ['EVMs are securely transported to designated counting centers.', 'Seals are verified in the presence of candidate representatives.', 'Votes recorded in the Control Unit are tallied round by round.', 'Final results are declared by the Returning Officer.'],
@@ -95,7 +95,7 @@ const topicsData = [
     }
   },
   {
-    id: 'rights', icon: Gavel, color: 'text-rose-600', bgColor: 'bg-rose-100',
+    id: 'rights', icon: Gavel, color: 'text-rose-600 dark:text-rose-400', bgColor: 'bg-rose-100 dark:bg-rose-900/30',
     EN: {
       title: 'Voter Rights', detailsTitle: 'Understanding Voter Rights',
       steps: ['Right to vote freely without any pressure or coercion.', 'Right to secret ballot ensuring your vote remains confidential.', 'Right to know candidates through their submitted affidavits.', 'Right to NOTA (None of the Above) to reject all candidates.'],
@@ -108,7 +108,7 @@ const topicsData = [
     }
   },
   {
-    id: 'evm', icon: SlidersVertical, color: 'text-cyan-600', bgColor: 'bg-cyan-100',
+    id: 'evm', icon: SlidersVertical, color: 'text-cyan-600 dark:text-cyan-400', bgColor: 'bg-cyan-100 dark:bg-cyan-900/30',
     EN: {
       title: 'EVM Machines', detailsTitle: 'Electronic Voting Machines (EVM)',
       steps: ['Used to cast votes electronically instead of ballot papers.', 'Simple button-based voting system with candidates listed.', 'Connected to VVPAT (Voter Verifiable Paper Audit Trail) for verification.', 'Ensures fast, accurate counting and prevents invalid votes.'],
@@ -121,7 +121,7 @@ const topicsData = [
     }
   },
   {
-    id: 'nota', icon: Ban, color: 'text-slate-600', bgColor: 'bg-slate-100',
+    id: 'nota', icon: Ban, color: 'text-slate-600 dark:text-slate-400', bgColor: 'bg-slate-100 dark:bg-slate-800',
     EN: {
       title: 'NOTA', detailsTitle: 'None of the Above (NOTA)',
       steps: ['Option to officially reject all contesting candidates in your constituency.', 'Available as the last button on the Electronic Voting Machine (EVM).', 'Your vote still counts towards total turnout, but not for any candidate.', 'It expresses dissatisfaction and promotes better candidate selection.'],
@@ -134,7 +134,7 @@ const topicsData = [
     }
   },
   {
-    id: 'eligibility', icon: UserCheck, color: 'text-emerald-600', bgColor: 'bg-emerald-100',
+    id: 'eligibility', icon: UserCheck, color: 'text-emerald-600 dark:text-emerald-400', bgColor: 'bg-emerald-100 dark:bg-emerald-900/30',
     EN: {
       title: 'Voter Eligibility', detailsTitle: 'Who Can Vote?',
       steps: ['Must be at least 18 years of age on the qualifying date.', 'Must be an Indian citizen.', 'Must be officially registered in the voter list (electoral roll).', 'Must possess a valid Voter ID (EPIC) or approved alternative ID.'],
@@ -153,10 +153,10 @@ const LearnPage = ({ language = 'EN' }) => {
   const tContent = textDict[language];
 
   return (
-    <div className="max-w-5xl mx-auto p-8 md:p-12 w-full flex flex-col items-center flex-1 h-full overflow-y-auto">
+    <div className="max-w-5xl mx-auto p-8 md:p-12 w-full flex flex-col items-center flex-1 h-full overflow-y-auto transition-colors">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">{tContent.title}</h2>
-        <p className="text-slate-500 mt-4 text-lg max-w-2xl mx-auto leading-relaxed">
+        <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{tContent.title}</h2>
+        <p className="text-slate-500 dark:text-slate-400 mt-4 text-lg max-w-2xl mx-auto leading-relaxed">
           {tContent.desc}
         </p>
       </div>
@@ -172,14 +172,14 @@ const LearnPage = ({ language = 'EN' }) => {
               onClick={() => setActiveTopic(isActive ? null : topic)}
               className={`p-6 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center gap-4 hover:-translate-y-1 ${
                 isActive 
-                  ? 'border-[#0014CC] bg-blue-50/50 shadow-md ring-1 ring-[#0014CC]' 
-                  : 'border-slate-200 bg-white shadow-sm hover:shadow-md hover:border-slate-300'
+                  ? 'border-[#0014CC] dark:border-[#4d5fff] bg-blue-50/50 dark:bg-blue-900/30 shadow-md ring-1 ring-[#0014CC] dark:ring-[#4d5fff]' 
+                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
               }`}
             >
               <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 ${topic.bgColor} ${topic.color}`}>
                 <Icon size={24} />
               </div>
-              <h3 className={`font-semibold text-[15px] leading-snug ${isActive ? 'text-[#0014CC]' : 'text-slate-800'}`}>
+              <h3 className={`font-semibold text-[15px] leading-snug ${isActive ? 'text-[#0014CC] dark:text-[#4d5fff]' : 'text-slate-800 dark:text-slate-200'}`}>
                 {topicContent.title}
               </h3>
             </button>
@@ -188,12 +188,12 @@ const LearnPage = ({ language = 'EN' }) => {
       </div>
 
       {activeTopic && (
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
-          <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
+          <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-700">
              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeTopic.bgColor} ${activeTopic.color}`}>
                 <activeTopic.icon size={24} />
              </div>
-             <h3 className="text-2xl font-bold text-slate-900">{activeTopic[language].detailsTitle}</h3>
+             <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{activeTopic[language].detailsTitle}</h3>
           </div>
           
           <div className="mb-8">
@@ -201,22 +201,22 @@ const LearnPage = ({ language = 'EN' }) => {
             <ul className="space-y-4">
               {activeTopic[language].steps.map((step, idx) => (
                 <li key={idx} className="flex items-start gap-3">
-                   <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 text-sm font-bold mt-0.5">
+                   <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 flex items-center justify-center flex-shrink-0 text-sm font-bold mt-0.5">
                      {idx + 1}
                    </div>
-                   <p className="text-slate-700 leading-relaxed text-[15px]">{step}</p>
+                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-[15px]">{step}</p>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="bg-[#F4F4FD] border border-indigo-100 rounded-2xl p-5 flex gap-4">
-             <div className="bg-[#0014CC] w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+          <div className="bg-[#F4F4FD] dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-5 flex gap-4">
+             <div className="bg-[#0014CC] dark:bg-[#4d5fff] w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
                 <Lightbulb size={20} className="text-white" />
              </div>
              <div>
-               <h4 className="font-bold text-slate-900 text-[15px]">{tContent.proTip}</h4>
-               <p className="text-slate-600 text-[14px] mt-1 leading-relaxed">
+               <h4 className="font-bold text-slate-900 dark:text-white text-[15px]">{tContent.proTip}</h4>
+               <p className="text-slate-600 dark:text-slate-400 text-[14px] mt-1 leading-relaxed">
                  {activeTopic[language].tip}
                </p>
              </div>
@@ -225,11 +225,11 @@ const LearnPage = ({ language = 'EN' }) => {
       )}
 
       {/* Motivation Lines */}
-      <div className="w-full max-w-4xl mt-8 pt-12 border-t border-slate-200 pb-12">
+      <div className="w-full max-w-4xl mt-8 pt-12 border-t border-slate-200 dark:border-slate-800 pb-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {tContent.motivation.map((line, idx) => (
-             <div key={idx} className="bg-[#F8FAFC] border border-slate-200 rounded-2xl p-6 text-center shadow-sm">
-                <p className="text-slate-700 font-medium leading-relaxed italic text-[15px]">"{line}"</p>
+             <div key={idx} className="bg-[#F8FAFC] dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-center shadow-sm">
+                <p className="text-slate-700 dark:text-slate-300 font-medium leading-relaxed italic text-[15px]">"{line}"</p>
              </div>
           ))}
         </div>

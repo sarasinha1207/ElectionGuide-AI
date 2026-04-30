@@ -1,21 +1,24 @@
 import React from 'react';
+import { translations } from '../translations';
 
-const Footer = () => {
+const Footer = ({ language = 'EN' }) => {
+  const t = translations[language].footer;
+
   return (
-    <footer className="bg-[#F8FAFC] border-t border-slate-200 py-8 px-8 mt-auto flex-shrink-0 w-full z-10">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-sm text-slate-500 gap-6">
+    <footer className="bg-[#F8FAFC] dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-8 px-8 mt-auto flex-shrink-0 w-full z-10 transition-colors">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-sm text-slate-500 dark:text-slate-400 gap-6">
         <div className="max-w-xl">
-          <p className="font-bold text-slate-900 text-base mb-2">ElectionGuide AI</p>
+          <p className="font-bold text-slate-900 dark:text-white text-base mb-2">ElectionGuide AI</p>
           <p className="leading-relaxed">
-            © 2024 Election Commission Assistant. All rights reserved.<br />
-            For educational purposes only. Empowering every citizen with accurate information.
+            {t.rights}<br />
+            {t.purpose}
           </p>
         </div>
         <div className="flex flex-wrap gap-6 md:gap-8 font-medium">
-          <a href="#" className="hover:text-slate-800 transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-slate-800 transition-colors">Accessibility Settings</a>
-          <a href="#" className="hover:text-slate-800 transition-colors">Contact Support</a>
-          <a href="#" className="text-[#E84E1B] hover:underline transition-all">Official ECI Portal</a>
+          <a href="#" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">{t.privacy}</a>
+          <a href="#" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">{t.accessibility}</a>
+          <a href="#" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">{t.support}</a>
+          <a href="#" className="text-[#0014CC] dark:text-[#4d5fff] hover:underline transition-all">{t.portal}</a>
         </div>
       </div>
     </footer>

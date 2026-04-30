@@ -12,7 +12,7 @@ export default function App() {
   const [theme, setTheme] = useState('light');
 
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-900 text-white' : 'bg-[#F9FAFB] text-slate-900'} flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-200`}>
+    <div className={`h-screen overflow-hidden ${theme === 'dark' ? 'bg-slate-900 text-white' : 'bg-[#F9FAFB] text-slate-900'} flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900 transition-colors duration-200`}>
       <Header 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
@@ -23,14 +23,14 @@ export default function App() {
       />
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-[1600px] mx-auto flex flex-col">
-        {activeTab === 'home' && <HomePage onNavigate={setActiveTab} />}
+      <main className="flex-1 w-full max-w-[1600px] mx-auto flex flex-col min-h-0">
+        {activeTab === 'home' && <HomePage onNavigate={setActiveTab} language={language} />}
         {activeTab === 'learn' && <LearnPage language={language} />}
-        {activeTab === 'timeline' && <TimelinePage />}
-        {activeTab === 'help' && <HelpPage />}
+        {activeTab === 'timeline' && <TimelinePage language={language} />}
+        {activeTab === 'help' && <HelpPage language={language} />}
       </main>
 
-      <Footer />
+      <Footer language={language} />
     </div>
   );
 }
