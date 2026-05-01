@@ -9,12 +9,12 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
   return (
     <div className="w-full flex flex-col bg-white dark:bg-slate-900 overflow-hidden pb-16 h-full overflow-y-auto flex-1 transition-colors">
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto w-full px-8 py-16 md:py-24 flex flex-col lg:flex-row items-center gap-12 flex-shrink-0">
+      <section aria-labelledby="hero-title" className="max-w-6xl mx-auto w-full px-8 py-16 md:py-24 flex flex-col lg:flex-row items-center gap-12 flex-shrink-0">
         <div className="flex-1 space-y-8">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-[#0014CC] dark:text-[#6b7bff] font-medium text-sm border border-blue-100 dark:border-blue-800/50 shadow-sm">
-            <Sparkles size={16} /> {t.tag}
+            <Sparkles size={16} aria-hidden="true" /> {t.tag}
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
+          <h1 id="hero-title" className="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
             {t.title1} <span className="text-[#0014CC] dark:text-[#4d5fff]">{t.titleHighlight}</span>
           </h1>
           <p className="text-xl text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
@@ -23,15 +23,17 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <button 
               onClick={() => onNavigate('learn')}
-              className="px-8 py-3.5 bg-[#0014CC] dark:bg-[#4d5fff] text-white rounded-xl font-semibold shadow-md hover:bg-blue-800 dark:hover:bg-[#3a48e6] transition-colors flex items-center justify-center gap-2"
+              aria-label={t.getStarted}
+              className="px-8 py-3.5 bg-[#0014CC] dark:bg-[#4d5fff] text-white rounded-xl font-semibold shadow-md hover:bg-blue-800 dark:hover:bg-[#3a48e6] transition-colors flex items-center justify-center gap-2 focus:ring-2 focus:ring-offset-2 focus:ring-[#0014CC]"
             >
-              {t.getStarted} <ArrowRight size={18} />
+              {t.getStarted} <ArrowRight size={18} aria-hidden="true" />
             </button>
             <button 
               onClick={() => onNavigate('help')}
-              className="px-8 py-3.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] hover:text-[#0014CC] dark:hover:text-[#4d5fff] transition-colors flex items-center justify-center gap-2"
+              aria-label={t.askAI}
+              className="px-8 py-3.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] hover:text-[#0014CC] dark:hover:text-[#4d5fff] transition-colors flex items-center justify-center gap-2 focus:ring-2 focus:ring-offset-2 focus:ring-[#0014CC]"
             >
-              <Bot size={18} /> {t.askAI}
+              <Bot size={18} aria-hidden="true" /> {t.askAI}
             </button>
           </div>
         </div>
@@ -46,10 +48,10 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
       </section>
 
       {/* Voting Steps Section */}
-      <section className="bg-slate-50 dark:bg-slate-800/50 border-y border-slate-200 dark:border-slate-800 py-20 flex-shrink-0">
+      <section aria-labelledby="steps-title" className="bg-slate-50 dark:bg-slate-800/50 border-y border-slate-200 dark:border-slate-800 py-20 flex-shrink-0">
         <div className="max-w-6xl mx-auto px-8 w-full">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">{t.stepsTitle}</h2>
+            <h2 id="steps-title" className="text-3xl font-bold text-slate-900 dark:text-white">{t.stepsTitle}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {t.steps.map((step, index) => {
@@ -60,7 +62,7 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
                     {index + 1}
                   </div>
                   <div className="w-16 h-16 bg-blue-50 dark:bg-slate-700 text-[#0014CC] dark:text-[#4d5fff] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Icon size={32} />
+                    <Icon size={32} aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">{step.title}</h3>
                   <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">

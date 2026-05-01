@@ -161,7 +161,7 @@ const LearnPage = ({ language = 'EN' }) => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-12 w-full max-w-4xl justify-center">
+      <div role="group" aria-label="Learning Topics" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-12 w-full max-w-4xl justify-center">
         {topicsData.map((topic) => {
           const Icon = topic.icon;
           const isActive = activeTopic?.id === topic.id;
@@ -170,7 +170,9 @@ const LearnPage = ({ language = 'EN' }) => {
             <button
               key={topic.id}
               onClick={() => setActiveTopic(isActive ? null : topic)}
-              className={`p-6 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center gap-4 hover:-translate-y-1 ${
+              aria-expanded={isActive}
+              aria-controls="topic-details"
+              className={`p-6 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center gap-4 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#0014CC] focus:ring-offset-2 dark:focus:ring-offset-slate-900 ${
                 isActive 
                   ? 'border-[#0014CC] dark:border-[#4d5fff] bg-blue-50/50 dark:bg-blue-900/30 shadow-md ring-1 ring-[#0014CC] dark:ring-[#4d5fff]' 
                   : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
@@ -188,12 +190,12 @@ const LearnPage = ({ language = 'EN' }) => {
       </div>
 
       {activeTopic && (
-        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
+        <section id="topic-details" aria-live="polite" aria-labelledby="topic-details-title" className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
           <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-700">
              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeTopic.bgColor} ${activeTopic.color}`}>
                 <activeTopic.icon size={24} />
              </div>
-             <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{activeTopic[language].detailsTitle}</h3>
+             <h3 id="topic-details-title" className="text-2xl font-bold text-slate-900 dark:text-white">{activeTopic[language].detailsTitle}</h3>
           </div>
           
           <div className="mb-8">
@@ -221,7 +223,7 @@ const LearnPage = ({ language = 'EN' }) => {
                </p>
              </div>
           </div>
-        </div>
+        </section>
       )}
 
       {/* Motivation Lines */}

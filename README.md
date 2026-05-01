@@ -76,10 +76,23 @@ The application makes meaningful and efficient use of the Google ecosystem:
 
 ---
 
+### Testing & Quality Assurance
+* **Comprehensive Test Suite:** Integrated **Vitest** and **React Testing Library** to ensure component reliability.
+* **Unit Testing:** Individual tests for `Header`, `App`, `HomePage`, `LearnPage`, and `TimelinePage` ensure core logic is protected against regressions.
+* **Mocked AI Responses:** The `HelpPage` tests utilize mocked Gemini API responses to validate chat logic without incurring API costs during CI/CD.
+
+### Accessibility (A11y)
+* **Semantic HTML5:** Full implementation of `<main>`, `<header>`, `<footer>`, `<nav>`, and `<section>` tags for proper document structure.
+* **ARIA Support:** Comprehensive use of `aria-label`, `aria-expanded`, and `aria-current` attributes to support screen readers.
+* **Keyboard Navigation:** Ensured all interactive elements are focusable and have visible focus states.
+* **Skip to Content:** Added a hidden "Skip to content" link for keyboard and screen reader users to bypass navigation.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
-* Node.js (v18+)
+* Node.js (v20+)
 * A Google Cloud Project with the **Maps Embed API** enabled.
 * A Google AI Studio **Gemini API Key**.
 
@@ -87,6 +100,9 @@ The application makes meaningful and efficient use of the Google ecosystem:
 \`\`\`bash
 # Install dependencies
 npm install
+
+# Run tests
+npm run test
 
 # Create environment file
 echo "VITE_GEMINI_API_KEY=your_key" > .env

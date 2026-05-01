@@ -24,15 +24,15 @@ const TimelinePage = ({ language = 'EN' }) => {
         {/* Vertical Line */}
         <div className="absolute left-[27px] top-4 bottom-4 w-1 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
 
-        <div className="space-y-10 pb-12">
+        <ol aria-label="Election Timeline" className="space-y-10 pb-12">
           {t.steps.map((step, index) => {
             const Icon = icons[index];
             const { color, border } = colors[index];
             return (
-              <div key={index} className="relative flex items-start gap-6 group">
+              <li key={index} className="relative flex items-start gap-6 group">
                 {/* Stepper Icon */}
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 border-4 border-white dark:border-slate-900 shadow-sm transition-transform duration-300 group-hover:scale-110 ${color}`}>
-                  <Icon size={24} />
+                  <Icon size={24} aria-hidden="true" />
                 </div>
 
                 {/* Content Card */}
@@ -48,9 +48,10 @@ const TimelinePage = ({ language = 'EN' }) => {
                     href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(t.reminderTitle + ': ' + step.title)}&details=${encodeURIComponent(t.reminderDesc + step.desc)}&dates=20260515T090000Z/20260515T100000Z`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-lg transition-colors border border-slate-200 dark:border-slate-600"
+                    aria-label={`${t.reminderBtn} for ${step.title}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-lg transition-colors border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
                   >
-                    <CalendarDays size={16} className="text-[#0014CC] dark:text-[#4d5fff]" />
+                    <CalendarDays size={16} className="text-[#0014CC] dark:text-[#4d5fff]" aria-hidden="true" />
                     {t.reminderBtn}
                   </a>
                 </div>
@@ -58,13 +59,13 @@ const TimelinePage = ({ language = 'EN' }) => {
                 {/* Success Checkmark overlay (simulating progress) */}
                 {index < 2 && (
                   <div className="absolute left-[38px] top-10 w-6 h-6 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center shadow-sm z-20">
-                    <CheckCircle2 size={20} className="text-green-500 dark:text-green-400" />
+                    <CheckCircle2 size={20} className="text-green-500 dark:text-green-400" aria-label="Completed" />
                   </div>
                 )}
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </div>
     </div>
   );

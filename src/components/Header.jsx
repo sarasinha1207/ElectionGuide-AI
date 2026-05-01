@@ -21,7 +21,7 @@ const Header = ({ activeTab, setActiveTab, language, setLanguage, theme, setThem
           {t.title}
         </div>
 
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav aria-label="Main Navigation" className="hidden md:flex items-center space-x-8">
           {[
             { id: 'home', label: t.home },
             { id: 'learn', label: t.learn },
@@ -31,6 +31,7 @@ const Header = ({ activeTab, setActiveTab, language, setLanguage, theme, setThem
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
               className={`text-[15px] font-semibold transition-all flex flex-col items-center justify-center h-16 border-b-2 ${activeTab === tab.id
                 ? 'text-[#0014CC] dark:text-[#4d5fff] border-[#0014CC] dark:border-[#4d5fff]'
                 : 'text-slate-500 dark:text-slate-400 border-transparent hover:text-slate-900 dark:hover:text-white'
@@ -44,7 +45,8 @@ const Header = ({ activeTab, setActiveTab, language, setLanguage, theme, setThem
         <div className="flex items-center gap-3">
           <button
             onClick={() => setLanguage(language === 'EN' ? 'HI' : 'EN')}
-            className="flex items-center gap-2 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-1.5 text-[13px] font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            aria-label={`Switch language to ${language === 'EN' ? 'Hindi' : 'English'}`}
+            className="flex items-center gap-2 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-1.5 text-[13px] font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
           >
             <Globe size={16} className="text-slate-500 dark:text-slate-400" />
             <span className="flex items-center">
@@ -55,9 +57,10 @@ const Header = ({ activeTab, setActiveTab, language, setLanguage, theme, setThem
           </button>
           <button
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            aria-label={`Toggle to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
           >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            {theme === 'light' ? <Moon size={18} aria-hidden="true" /> : <Sun size={18} aria-hidden="true" />}
           </button>
         </div>
       </div>
