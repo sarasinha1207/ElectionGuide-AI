@@ -17,7 +17,7 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
           <h1 id="hero-title" className="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
             {t.title1} <span className="text-[#0014CC] dark:text-[#4d5fff]">{t.titleHighlight}</span>
           </h1>
-          <p className="text-xl text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
+          <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
             {t.subtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -65,7 +65,7 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
                     <Icon size={32} aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">{step.title}</h3>
-                  <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
                     {step.text}
                   </p>
                 </div>
@@ -85,29 +85,29 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
             <div className="space-y-4">
               <div className="flex items-center gap-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
                  <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-                    <ShieldCheck size={24} />
+                    <ShieldCheck size={24} aria-hidden="true" />
                  </div>
                  <div>
-                   <h4 className="font-bold text-slate-900 dark:text-white">{t.reasons[0].title}</h4>
-                   <p className="text-sm text-slate-500 dark:text-slate-400">{t.reasons[0].text}</p>
+                   <h3 className="font-bold text-slate-900 dark:text-white">{t.reasons[0].title}</h3>
+                   <p className="text-sm text-slate-600 dark:text-slate-400">{t.reasons[0].text}</p>
                  </div>
               </div>
               <div className="flex items-center gap-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
                  <div className="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 flex items-center justify-center flex-shrink-0">
-                    <AlertCircle size={24} />
+                    <AlertCircle size={24} aria-hidden="true" />
                  </div>
                  <div>
-                   <h4 className="font-bold text-slate-900 dark:text-white">{t.reasons[1].title}</h4>
-                   <p className="text-sm text-slate-500 dark:text-slate-400">{t.reasons[1].text}</p>
+                   <h3 className="font-bold text-slate-900 dark:text-white">{t.reasons[1].title}</h3>
+                   <p className="text-sm text-slate-600 dark:text-slate-400">{t.reasons[1].text}</p>
                  </div>
               </div>
               <div className="flex items-center gap-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-2xl shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
                  <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 text-[#0014CC] dark:text-[#4d5fff] flex items-center justify-center flex-shrink-0">
-                    <CheckCircle size={24} />
+                    <CheckCircle size={24} aria-hidden="true" />
                  </div>
                  <div>
-                   <h4 className="font-bold text-slate-900 dark:text-white">{t.reasons[2].title}</h4>
-                   <p className="text-sm text-slate-500 dark:text-slate-400">{t.reasons[2].text}</p>
+                   <h3 className="font-bold text-slate-900 dark:text-white">{t.reasons[2].title}</h3>
+                   <p className="text-sm text-slate-600 dark:text-slate-400">{t.reasons[2].text}</p>
                  </div>
               </div>
             </div>
@@ -118,27 +118,30 @@ const HomePage = ({ onNavigate, language = 'EN' }) => {
              <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/3"></div>
              <h2 className="text-3xl font-bold mb-8 relative z-10">{t.quickAccess}</h2>
              <div className="flex flex-col gap-4 relative z-10">
-               <button 
-                 onClick={() => onNavigate('learn')}
-                 className="w-full bg-white/10 dark:bg-slate-700 hover:bg-white/20 dark:hover:bg-slate-600 border border-white/20 dark:border-slate-600 p-4 rounded-xl font-semibold flex items-center justify-between transition-colors backdrop-blur-sm"
-               >
-                 <span>{t.learnMore}</span>
-                 <ArrowRight size={20} />
-               </button>
-               <button 
-                 onClick={() => onNavigate('help')}
-                 className="w-full bg-white/10 dark:bg-slate-700 hover:bg-white/20 dark:hover:bg-slate-600 border border-white/20 dark:border-slate-600 p-4 rounded-xl font-semibold flex items-center justify-between transition-colors backdrop-blur-sm"
-               >
-                 <span>{t.findBooth}</span>
-                 <MapPin size={20} />
-               </button>
-               <button 
-                 onClick={() => onNavigate('learn')}
-                 className="w-full bg-white/10 dark:bg-slate-700 hover:bg-white/20 dark:hover:bg-slate-600 border border-white/20 dark:border-slate-600 p-4 rounded-xl font-semibold flex items-center justify-between transition-colors backdrop-blur-sm"
-               >
-                 <span>{t.specialCases}</span>
-                 <HelpCircle size={20} />
-               </button>
+                <button 
+                  onClick={() => onNavigate('learn')}
+                  aria-label={`${t.learnMore} (Navigate to learn page)`}
+                  className="w-full bg-white/10 dark:bg-slate-700 hover:bg-white/20 dark:hover:bg-slate-600 border border-white/20 dark:border-slate-600 p-4 rounded-xl font-semibold flex items-center justify-between transition-colors backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+                >
+                  <span>{t.learnMore}</span>
+                  <ArrowRight size={20} aria-hidden="true" />
+                </button>
+                <button 
+                  onClick={() => onNavigate('help')}
+                  aria-label={`${t.findBooth} (Navigate to chatbot page)`}
+                  className="w-full bg-white/10 dark:bg-slate-700 hover:bg-white/20 dark:hover:bg-slate-600 border border-white/20 dark:border-slate-600 p-4 rounded-xl font-semibold flex items-center justify-between transition-colors backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+                >
+                  <span>{t.findBooth}</span>
+                  <MapPin size={20} aria-hidden="true" />
+                </button>
+                <button 
+                  onClick={() => onNavigate('learn')}
+                  aria-label={`${t.specialCases} (Navigate to learn page)`}
+                  className="w-full bg-white/10 dark:bg-slate-700 hover:bg-white/20 dark:hover:bg-slate-600 border border-white/20 dark:border-slate-600 p-4 rounded-xl font-semibold flex items-center justify-between transition-colors backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+                >
+                  <span>{t.specialCases}</span>
+                  <HelpCircle size={20} aria-hidden="true" />
+                </button>
              </div>
           </div>
 

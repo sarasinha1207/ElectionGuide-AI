@@ -16,8 +16,8 @@ const TimelinePage = ({ language = 'EN' }) => {
   return (
     <div className="max-w-3xl mx-auto p-12 flex-1 h-full overflow-y-auto hide-scrollbar">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{t.title}</h2>
-        <p className="text-slate-500 dark:text-slate-400 mt-3 text-lg">{t.subtitle}</p>
+        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{t.title}</h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-3 text-lg">{t.subtitle}</p>
       </div>
 
       <div className="relative">
@@ -38,7 +38,7 @@ const TimelinePage = ({ language = 'EN' }) => {
                 {/* Content Card */}
                 <div className={`flex-1 bg-white dark:bg-slate-800 border ${border} p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative`}>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-sm font-bold text-slate-400 dark:text-slate-500">{t.phasePrefix} {index + 1}</span>
+                    <span className="text-sm font-bold text-slate-400 dark:text-slate-500" aria-hidden="true">{t.phasePrefix} {index + 1}</span>
                     <h3 className="text-xl font-bold text-slate-800 dark:text-white">{step.title}</h3>
                   </div>
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{step.desc}</p>
@@ -58,8 +58,8 @@ const TimelinePage = ({ language = 'EN' }) => {
 
                 {/* Success Checkmark overlay (simulating progress) */}
                 {index < 2 && (
-                  <div className="absolute left-[38px] top-10 w-6 h-6 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center shadow-sm z-20">
-                    <CheckCircle2 size={20} className="text-green-500 dark:text-green-400" aria-label="Completed" />
+                  <div className="absolute left-[38px] top-10 w-6 h-6 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center shadow-sm z-20" aria-hidden="true">
+                    <CheckCircle2 size={20} className="text-green-500 dark:text-green-400" />
                   </div>
                 )}
               </li>

@@ -308,31 +308,55 @@ const HelpPage = ({ language = 'EN' }) => {
       {/* Sidebar */}
       <div className="w-[320px] bg-[#F4F4F9] dark:bg-slate-800/50 border-r border-slate-200 dark:border-slate-800 flex flex-col hidden md:flex flex-shrink-0">
         <div className="p-6 flex-1 overflow-y-auto">
-          <h2 className="text-[22px] font-bold text-slate-900 dark:text-white mb-6 tracking-tight">{t.sidebarTitle}</h2>
+          <h1 className="text-[22px] font-bold text-slate-900 dark:text-white mb-6 tracking-tight">{t.sidebarTitle}</h1>
 
           <div className="space-y-3 mb-10">
-            <button onClick={() => handleOptionClick('first_time', t.sidebar.firstTime)} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
-              <UserPlus className="text-[#0014CC] dark:text-[#4d5fff]" size={20} />
+            <button 
+              onClick={() => handleOptionClick('first_time', t.sidebar.firstTime)} 
+              aria-label={t.sidebar.firstTime}
+              className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
+            >
+              <UserPlus className="text-[#0014CC] dark:text-[#4d5fff]" size={20} aria-hidden="true" />
               <span className="text-[15px] text-slate-700 dark:text-slate-200 font-medium">{t.sidebar.firstTime}</span>
             </button>
-            <button onClick={() => handleOptionClick('voting_steps', t.sidebar.votingSteps)} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
-              <ListOrdered className="text-slate-600 dark:text-slate-400" size={20} />
+            <button 
+              onClick={() => handleOptionClick('voting_steps', t.sidebar.votingSteps)} 
+              aria-label={t.sidebar.votingSteps}
+              className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
+            >
+              <ListOrdered className="text-slate-600 dark:text-slate-400" size={20} aria-hidden="true" />
               <span className="text-[15px] text-slate-700 dark:text-slate-200 font-medium">{t.sidebar.votingSteps}</span>
             </button>
-            <button onClick={() => handleOptionClick('polling_booth', t.sidebar.findBooth)} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
-              <MapPin className="text-[#8B7355] dark:text-[#c4a985]" size={20} />
+            <button 
+              onClick={() => handleOptionClick('polling_booth', t.sidebar.findBooth)} 
+              aria-label={t.sidebar.findBooth}
+              className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
+            >
+              <MapPin className="text-[#8B7355] dark:text-[#c4a985]" size={20} aria-hidden="true" />
               <span className="text-[15px] text-slate-700 dark:text-slate-200 font-medium">{t.sidebar.findBooth}</span>
             </button>
-            <button onClick={() => handleOptionClick('check_name', t.sidebar.checkName)} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
-              <UserCheck className="text-[#0014CC] dark:text-[#4d5fff]" size={20} />
+            <button 
+              onClick={() => handleOptionClick('check_name', t.sidebar.checkName)} 
+              aria-label={t.sidebar.checkName}
+              className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
+            >
+              <UserCheck className="text-[#0014CC] dark:text-[#4d5fff]" size={20} aria-hidden="true" />
               <span className="text-[15px] text-slate-700 dark:text-slate-200 font-medium">{t.sidebar.checkName}</span>
             </button>
-            <button onClick={() => handleOptionClick('code_conduct', t.sidebar.mcc)} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
-              <Gavel className="text-slate-600 dark:text-slate-400" size={20} />
+            <button 
+              onClick={() => handleOptionClick('code_conduct', t.sidebar.mcc)} 
+              aria-label={t.sidebar.mcc}
+              className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
+            >
+              <Gavel className="text-slate-600 dark:text-slate-400" size={20} aria-hidden="true" />
               <span className="text-[15px] text-slate-700 dark:text-slate-200 font-medium">{t.sidebar.mcc}</span>
             </button>
-            <button onClick={() => handleOptionClick('evm_work', t.sidebar.evm)} className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors">
-              <SlidersVertical className="text-[#8B7355] dark:text-[#c4a985]" size={20} />
+            <button 
+              onClick={() => handleOptionClick('evm_work', t.sidebar.evm)} 
+              aria-label={t.sidebar.evm}
+              className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 flex items-center gap-4 text-left shadow-sm hover:border-[#0014CC] dark:hover:border-[#4d5fff] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
+            >
+              <SlidersVertical className="text-[#8B7355] dark:text-[#c4a985]" size={20} aria-hidden="true" />
               <span className="text-[15px] text-slate-700 dark:text-slate-200 font-medium">{t.sidebar.evm}</span>
             </button>
           </div>
@@ -345,20 +369,25 @@ const HelpPage = ({ language = 'EN' }) => {
         <div className="h-[72px] border-b border-slate-200 dark:border-slate-800 px-8 flex items-center justify-between bg-white dark:bg-slate-900 flex-shrink-0 transition-colors">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 bg-[#0014CC] dark:bg-[#4d5fff] rounded-xl flex items-center justify-center shadow-sm">
-              <Bot size={22} className="text-white" />
+              <Bot size={22} className="text-white" aria-hidden="true" />
             </div>
             <div>
               <h2 className="font-bold text-[17px] text-slate-900 dark:text-white leading-tight">{t.chatTitle}</h2>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-slate-500 dark:bg-slate-400"></span>
-                <p className="text-slate-500 dark:text-slate-400 text-[13px] font-medium">{t.chatStatus}</p>
+                <p className="text-slate-600 dark:text-slate-400 text-[13px] font-medium">{t.chatStatus}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-12 space-y-8 bg-white dark:bg-slate-900 scroll-smooth pb-20">
+        <div 
+          className="flex-1 overflow-y-auto p-12 space-y-8 bg-white dark:bg-slate-900 scroll-smooth pb-20"
+          role="log"
+          aria-live="polite"
+          aria-label="Chat messages"
+        >
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} w-full`}>
               <div className={`${msg.sender === 'user' ? 'max-w-[70%]' : 'w-full'}`}>
@@ -373,10 +402,10 @@ const HelpPage = ({ language = 'EN' }) => {
             </div>
           ))}
           {isLoading && (
-            <div className="flex justify-start w-full" data-testid="loading-spinner">
-              <div className="flex items-center gap-3 rounded-[20px] p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-[16px] w-fit shadow-sm">
-                <Loader2 size={20} className="animate-spin text-[#0014CC] dark:text-[#4d5fff]" />
-                Thinking...
+            <div className="flex justify-start w-full" data-testid="loading-spinner" aria-live="polite" aria-busy="true">
+              <div className="flex items-center gap-3 rounded-[20px] p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-[16px] w-fit shadow-sm">
+                <Loader2 size={20} className="animate-spin text-[#0014CC] dark:text-[#4d5fff]" aria-hidden="true" />
+                {t.thinking || "Thinking..."}
               </div>
             </div>
           )}
@@ -391,14 +420,15 @@ const HelpPage = ({ language = 'EN' }) => {
                 type="text"
                 value={inputValue}
                 data-testid="chat-input"
+                aria-label={t.inputPlaceholder}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder={t.inputPlaceholder}
                 className="w-full h-[60px] pl-6 pr-24 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-white focus:border-[#0014CC] dark:focus:border-[#4d5fff] focus:ring-0 transition-all outline-none text-[15px]"
               />
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4 text-slate-500 dark:text-slate-400">
-                <button className="hover:text-slate-800 dark:hover:text-white"><Mic size={20} /></button>
-                <button className="hover:text-slate-800 dark:hover:text-white"><Paperclip size={20} /></button>
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                <button className="hover:text-slate-800 dark:hover:text-white" aria-label="Voice input"><Mic size={20} aria-hidden="true" /></button>
+                <button className="hover:text-slate-800 dark:hover:text-white" aria-label="Attach file"><Paperclip size={20} aria-hidden="true" /></button>
               </div>
             </div>
             <button

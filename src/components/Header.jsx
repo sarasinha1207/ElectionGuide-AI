@@ -48,7 +48,7 @@ const Header = ({ activeTab, setActiveTab, language, setLanguage, theme, setThem
             aria-label={`Switch language to ${language === 'EN' ? 'Hindi' : 'English'}`}
             className="flex items-center gap-2 border border-slate-200 dark:border-slate-700 rounded-full px-4 py-1.5 text-[13px] font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
           >
-            <Globe size={16} className="text-slate-500 dark:text-slate-400" />
+            <Globe size={16} className="text-slate-600 dark:text-slate-400" aria-hidden="true" />
             <span className="flex items-center">
               <span className={language === 'EN' ? 'text-slate-800 dark:text-white' : 'text-slate-400 dark:text-slate-500'}>EN</span>
               <span className="mx-1 text-slate-300 dark:text-slate-600">|</span>

@@ -155,8 +155,8 @@ const LearnPage = ({ language = 'EN' }) => {
   return (
     <div className="max-w-5xl mx-auto p-8 md:p-12 w-full flex flex-col items-center flex-1 h-full overflow-y-auto transition-colors hide-scrollbar">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{tContent.title}</h2>
-        <p className="text-slate-500 dark:text-slate-400 mt-4 text-lg max-w-2xl mx-auto leading-relaxed">
+        <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{tContent.title}</h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-4 text-lg max-w-2xl mx-auto leading-relaxed">
           {tContent.desc}
         </p>
       </div>
@@ -179,7 +179,7 @@ const LearnPage = ({ language = 'EN' }) => {
               }`}
             >
               <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 ${topic.bgColor} ${topic.color}`}>
-                <Icon size={24} />
+                <Icon size={24} aria-hidden="true" />
               </div>
               <h3 className={`font-semibold text-[15px] leading-snug ${isActive ? 'text-[#0014CC] dark:text-[#4d5fff]' : 'text-slate-800 dark:text-slate-200'}`}>
                 {topicContent.title}
@@ -193,7 +193,7 @@ const LearnPage = ({ language = 'EN' }) => {
         <section id="topic-details" aria-live="polite" aria-labelledby="topic-details-title" className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
           <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-700">
              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeTopic.bgColor} ${activeTopic.color}`}>
-                <activeTopic.icon size={24} />
+                <activeTopic.icon size={24} aria-hidden="true" />
              </div>
              <h3 id="topic-details-title" className="text-2xl font-bold text-slate-900 dark:text-white">{activeTopic[language].detailsTitle}</h3>
           </div>
@@ -214,7 +214,7 @@ const LearnPage = ({ language = 'EN' }) => {
 
           <div className="bg-[#F4F4FD] dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-5 flex gap-4">
              <div className="bg-[#0014CC] dark:bg-[#4d5fff] w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
-                <Lightbulb size={20} className="text-white" />
+                <Lightbulb size={20} className="text-white" aria-hidden="true" />
              </div>
              <div>
                <h4 className="font-bold text-slate-900 dark:text-white text-[15px]">{tContent.proTip}</h4>
