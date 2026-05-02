@@ -148,6 +148,69 @@ const topicsData = [
   }
 ];
 
+// Memoize individual topic cards
+const TopicButton = React.memo(({ topic, isActive, onClick, language }) => {
+  const Icon = topic.icon;
+  const topicContent = topic[language];
+  return (
+    <button
+      onClick={onClick}
+      aria-expanded={isActive}
+      aria-controls="topic-details"
+      className={`p-6 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center gap-4 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#0014CC] focus:ring-offset-2 dark:focus:ring-offset-slate-900 ${
+        isActive 
+          ? 'border-[#0014CC] dark:border-[#4d5fff] bg-blue-50/50 dark:bg-blue-900/30 shadow-md ring-1 ring-[#0014CC] dark:ring-[#4d5fff]' 
+          : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
+      }`}
+    >
+      <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 ${topic.bgColor} ${topic.color}`}>
+        <Icon size={24} aria-hidden="true" />
+      </div>
+      <h3 className={`font-semibold text-[15px] leading-snug ${isActive ? 'text-[#0014CC] dark:text-[#4d5fff]' : 'text-slate-800 dark:text-slate-200'}`}>
+        {topicContent.title}
+      </h3>
+    </button>
+  );
+});
+
+// Memoize the details section
+const TopicDetails = React.memo(({ activeTopic, language, tContent }) => (
+  <section id="topic-details" aria-live="polite" aria-labelledby="topic-details-title" className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
+    <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-700">
+       <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeTopic.bgColor} ${activeTopic.color}`}>
+          <activeTopic.icon size={24} aria-hidden="true" />
+       </div>
+       <h3 id="topic-details-title" className="text-2xl font-bold text-slate-900 dark:text-white">{activeTopic[language].detailsTitle}</h3>
+    </div>
+    
+    <div className="mb-8">
+      <h4 className="text-[13px] font-bold text-slate-400 uppercase tracking-wider mb-4">{tContent.keySteps}</h4>
+      <ul className="space-y-4">
+        {activeTopic[language].steps.map((step, idx) => (
+          <li key={idx} className="flex items-start gap-3">
+             <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 flex items-center justify-center flex-shrink-0 text-sm font-bold mt-0.5">
+               {idx + 1}
+             </div>
+             <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-[15px]">{step}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div className="bg-[#F4F4FD] dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-5 flex gap-4">
+       <div className="bg-[#0014CC] dark:bg-[#4d5fff] w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+          <Lightbulb size={20} className="text-white" aria-hidden="true" />
+       </div>
+       <div>
+         <h4 className="font-bold text-slate-900 dark:text-white text-[15px]">{tContent.proTip}</h4>
+         <p className="text-slate-600 dark:text-slate-400 text-[14px] mt-1 leading-relaxed">
+           {activeTopic[language].tip}
+         </p>
+       </div>
+    </div>
+  </section>
+));
+
 const LearnPage = ({ language = 'EN' }) => {
   const [activeTopic, setActiveTopic] = useState(null);
   const tContent = textDict[language];
@@ -162,68 +225,19 @@ const LearnPage = ({ language = 'EN' }) => {
       </div>
 
       <div role="group" aria-label="Learning Topics" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-12 w-full max-w-4xl justify-center">
-        {topicsData.map((topic) => {
-          const Icon = topic.icon;
-          const isActive = activeTopic?.id === topic.id;
-          const topicContent = topic[language];
-          return (
-            <button
-              key={topic.id}
-              onClick={() => setActiveTopic(isActive ? null : topic)}
-              aria-expanded={isActive}
-              aria-controls="topic-details"
-              className={`p-6 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center gap-4 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#0014CC] focus:ring-offset-2 dark:focus:ring-offset-slate-900 ${
-                isActive 
-                  ? 'border-[#0014CC] dark:border-[#4d5fff] bg-blue-50/50 dark:bg-blue-900/30 shadow-md ring-1 ring-[#0014CC] dark:ring-[#4d5fff]' 
-                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600'
-              }`}
-            >
-              <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-2 ${topic.bgColor} ${topic.color}`}>
-                <Icon size={24} aria-hidden="true" />
-              </div>
-              <h3 className={`font-semibold text-[15px] leading-snug ${isActive ? 'text-[#0014CC] dark:text-[#4d5fff]' : 'text-slate-800 dark:text-slate-200'}`}>
-                {topicContent.title}
-              </h3>
-            </button>
-          );
-        })}
+        {topicsData.map((topic) => (
+          <TopicButton 
+            key={topic.id} 
+            topic={topic} 
+            isActive={activeTopic?.id === topic.id} 
+            onClick={() => setActiveTopic(activeTopic?.id === topic.id ? null : topic)}
+            language={language}
+          />
+        ))}
       </div>
 
       {activeTopic && (
-        <section id="topic-details" aria-live="polite" aria-labelledby="topic-details-title" className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 shadow-sm max-w-3xl w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-300 mb-12 text-left">
-          <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-slate-700">
-             <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeTopic.bgColor} ${activeTopic.color}`}>
-                <activeTopic.icon size={24} aria-hidden="true" />
-             </div>
-             <h3 id="topic-details-title" className="text-2xl font-bold text-slate-900 dark:text-white">{activeTopic[language].detailsTitle}</h3>
-          </div>
-          
-          <div className="mb-8">
-            <h4 className="text-[13px] font-bold text-slate-400 uppercase tracking-wider mb-4">{tContent.keySteps}</h4>
-            <ul className="space-y-4">
-              {activeTopic[language].steps.map((step, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                   <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 flex items-center justify-center flex-shrink-0 text-sm font-bold mt-0.5">
-                     {idx + 1}
-                   </div>
-                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-[15px]">{step}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="bg-[#F4F4FD] dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-5 flex gap-4">
-             <div className="bg-[#0014CC] dark:bg-[#4d5fff] w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
-                <Lightbulb size={20} className="text-white" aria-hidden="true" />
-             </div>
-             <div>
-               <h4 className="font-bold text-slate-900 dark:text-white text-[15px]">{tContent.proTip}</h4>
-               <p className="text-slate-600 dark:text-slate-400 text-[14px] mt-1 leading-relaxed">
-                 {activeTopic[language].tip}
-               </p>
-             </div>
-          </div>
-        </section>
+        <TopicDetails activeTopic={activeTopic} language={language} tContent={tContent} />
       )}
 
       {/* Motivation Lines */}

@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
-import LearnPage from './pages/LearnPage';
-import TimelinePage from './pages/TimelinePage';
-import HelpPage from './pages/HelpPage';
+import { Loader2 } from 'lucide-react';
+
+// Lazy load pages for better performance
+const HomePage = React.lazy(() => import('./pages/HomePage'));
+const LearnPage = React.lazy(() => import('./pages/LearnPage'));
+const TimelinePage = React.lazy(() => import('./pages/TimelinePage'));
+const HelpPage = React.lazy(() => import('./pages/HelpPage'));
+
+const PageLoader = () => (
+  <div className="flex-1 flex items-center justify-center bg-white dark:bg-slate-900">
+    <Loader2 className="w-10 h-10 animate-spin text-[#0014CC] dark:text-[#4d5fff]" />
+  </div>
+);
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -30,10 +39,12 @@ export default function App() {
 
       {/* Main Content */}
       <main id="main-content" className="flex-1 w-full max-w-[1600px] mx-auto flex flex-col min-h-0" role="main">
-        {activeTab === 'home' && <HomePage onNavigate={setActiveTab} language={language} />}
-        {activeTab === 'learn' && <LearnPage language={language} />}
-        {activeTab === 'timeline' && <TimelinePage language={language} />}
-        {activeTab === 'help' && <HelpPage language={language} />}
+        <React.Suspense fallback={<PageLoader />}>
+          {activeTab === 'home' && <HomePage onNavigate={setActiveTab} language={language} />}
+          {activeTab === 'learn' && <LearnPage language={language} />}
+          {activeTab === 'timeline' && <TimelinePage language={language} />}
+          {activeTab === 'help' && <HelpPage language={language} />}
+        </React.Suspense>
       </main>
 
       <Footer language={language} />

@@ -6,6 +6,26 @@ import {
 import { translations } from '../translations';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// Optimize performance by memoizing individual message components
+const ChatMessage = React.memo(({ msg, renderContent }) => (
+  <div className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} w-full animate-in fade-in duration-300`}>
+    <div className={`${msg.sender === 'user' ? 'max-w-[70%]' : 'w-full'}`}>
+      {msg.text && msg.sender === 'user' && (
+        <div className="rounded-[20px] p-5 bg-[#F1F3F5] dark:bg-[#1e293b] text-slate-800 dark:text-white text-[16px] leading-relaxed w-fit ml-auto shadow-sm">
+          {msg.text}
+        </div>
+      )}
+      {msg.sender === 'assistant' && renderContent(msg)}
+    </div>
+  </div>
+));
+
+// Simple sanitizer for security
+const sanitizeInput = (str) => {
+  if (!str) return '';
+  return str.replace(/[<>]/g, '').trim().substring(0, 500); // Strip tags and limit length
+};
+
 const HelpPage = ({ language = 'EN' }) => {
   const t = translations[language].help;
   
@@ -19,6 +39,9 @@ const HelpPage = ({ language = 'EN' }) => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [lastSentTime, setLastSentTime] = useState(0);
+
+  const RATE_LIMIT_MS = 2000; // 2 seconds between messages
 
   useEffect(() => {
     setMessages(prev => {
@@ -57,9 +80,15 @@ const HelpPage = ({ language = 'EN' }) => {
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+    const sanitized = sanitizeInput(inputValue);
+    if (!sanitized || isLoading) return;
 
-    const userMsg = inputValue;
+    // Rate limiting for security and efficiency
+    const now = Date.now();
+    if (now - lastSentTime < RATE_LIMIT_MS) return;
+    setLastSentTime(now);
+
+    const userMsg = sanitized;
     setInputValue('');
     
     setMessages(prev => [
@@ -389,17 +418,7 @@ const HelpPage = ({ language = 'EN' }) => {
           aria-label="Chat messages"
         >
           {messages.map((msg) => (
-            <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} w-full`}>
-              <div className={`${msg.sender === 'user' ? 'max-w-[70%]' : 'w-full'}`}>
-                {msg.text && msg.sender === 'user' && (
-                  <div className="rounded-[20px] p-5 bg-[#F1F3F5] dark:bg-[#1e293b] text-slate-800 dark:text-white text-[16px] leading-relaxed w-fit ml-auto shadow-sm">
-                    {msg.text}
-                  </div>
-                )}
-
-                {msg.sender === 'assistant' && renderMessageContent(msg)}
-              </div>
-            </div>
+            <ChatMessage key={msg.id} msg={msg} renderContent={renderMessageContent} />
           ))}
           {isLoading && (
             <div className="flex justify-start w-full" data-testid="loading-spinner" aria-live="polite" aria-busy="true">

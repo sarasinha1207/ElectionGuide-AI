@@ -68,4 +68,4 @@ const Header = ({ activeTab, setActiveTab, language, setLanguage, theme, setThem
   );
 };
 
-export default Header;
+export default React.memo(Header);
