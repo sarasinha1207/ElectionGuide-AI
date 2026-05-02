@@ -23,5 +23,10 @@ describe('LearnPage Component', () => {
     // Ensure detailed content appears
     expect(screen.getByText('How to Register to Vote')).toBeInTheDocument();
     expect(screen.getByText('Visit the National Voters Service Portal (NVSP).')).toBeInTheDocument();
+
+    // Click again to deselect
+    fireEvent.click(firstTopicBtn);
+    expect(firstTopicBtn).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByText('How to Register to Vote')).not.toBeInTheDocument();
   });
 });

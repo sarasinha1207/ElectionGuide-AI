@@ -1,24 +1,49 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Bot, Mic, Paperclip, Send, Lightbulb, MapPin, ListOrdered, UserPlus, 
-  UserCheck, Gavel, SlidersVertical, FileText, Vote, Loader2 
+  UserCheck, Gavel, SlidersVertical, FileText, Vote, Loader2, Copy, CheckCircle2 
 } from 'lucide-react';
 import { translations } from '../translations';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Optimize performance by memoizing individual message components
-const ChatMessage = React.memo(({ msg, renderContent }) => (
-  <div className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} w-full animate-in fade-in duration-300`}>
-    <div className={`${msg.sender === 'user' ? 'max-w-[70%]' : 'w-full'}`}>
-      {msg.text && msg.sender === 'user' && (
-        <div className="rounded-[20px] p-5 bg-[#F1F3F5] dark:bg-[#1e293b] text-slate-800 dark:text-white text-[16px] leading-relaxed w-fit ml-auto shadow-sm">
-          {msg.text}
-        </div>
-      )}
-      {msg.sender === 'assistant' && renderContent(msg)}
+const ChatMessage = React.memo(({ msg, renderContent }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(msg.text || '');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div 
+      className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} group animate-in fade-in slide-in-from-bottom-2 duration-300`}
+    >
+      <div className={`max-w-[85%] relative ${msg.sender === 'user' ? 'order-1' : 'order-2'}`}>
+        {msg.sender === 'user' ? (
+          <div className="rounded-[20px] p-5 bg-[#F1F3F5] dark:bg-[#1e293b] text-slate-800 dark:text-white text-[16px] leading-relaxed w-fit ml-auto shadow-sm">
+            {msg.text}
+          </div>
+        ) : (
+          renderContent(msg)
+        )}
+        
+        {/* Actions - visible on hover for assistant messages or user messages with text */}
+        {msg.text && (
+          <div className={`absolute top-0 ${msg.sender === 'user' ? '-left-10' : '-right-10'} opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2`}>
+            <button 
+              onClick={handleCopy}
+              aria-label="Copy message"
+              className="p-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-[#0014CC] dark:hover:text-[#4d5fff] shadow-sm transition-colors"
+            >
+              {copied ? <CheckCircle2 size={16} /> : <Copy size={16} />}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-));
+  );
+});
 
 // Simple sanitizer for security
 const sanitizeInput = (str) => {

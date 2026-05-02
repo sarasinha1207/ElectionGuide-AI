@@ -52,4 +52,30 @@ describe('Header Component', () => {
     fireEvent.click(themeBtn);
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
   });
+
+  it('navigates through all tabs', () => {
+    const mockSetActiveTab = vi.fn();
+    render(
+      <Header 
+        activeTab="home" 
+        setActiveTab={mockSetActiveTab} 
+        language="EN" 
+        setLanguage={vi.fn()} 
+        theme="light" 
+        setTheme={vi.fn()} 
+      />
+    );
+    
+    fireEvent.click(screen.getByText('Learn'));
+    expect(mockSetActiveTab).toHaveBeenCalledWith('learn');
+    
+    fireEvent.click(screen.getByText('Timeline'));
+    expect(mockSetActiveTab).toHaveBeenCalledWith('timeline');
+    
+    fireEvent.click(screen.getByText('Help'));
+    expect(mockSetActiveTab).toHaveBeenCalledWith('help');
+    
+    fireEvent.click(screen.getByText('Home'));
+    expect(mockSetActiveTab).toHaveBeenCalledWith('home');
+  });
 });

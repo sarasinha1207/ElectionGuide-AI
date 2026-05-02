@@ -1,18 +1,34 @@
-node_modules
-dist
-.git
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Version control
+.git/
+
+# Configuration files
 .gitignore
 .dockerignore
-.DS_Store
-.env
-.env.local
-.vscode
-.idea
 Dockerfile
 README.md
-tests
-coverage
+
+# Environment variables
+.env
+.env*
+!.env.example
+
+# Development/Editor files
+.vscode/
+.idea/
+
+# Testing
+tests/
+coverage/
 src/setupTests.js
 vitest.config.js
+
+# Misc
 package-lock.json
 npm-debug.log
+.DS_Store
