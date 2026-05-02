@@ -8,4 +8,6 @@ afterEach(() => {
 });
 
 // Mock scrollIntoView as it is not implemented in JSDOM
-window.HTMLElement.prototype.scrollIntoView = function() {};
+if (typeof window !== 'undefined') {
+  window.HTMLElement.prototype.scrollIntoView = function() {};
+}

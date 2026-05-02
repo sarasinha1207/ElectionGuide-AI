@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import TimelinePage from './TimelinePage';
+import TimelinePage from '../../src/pages/TimelinePage';
 
 describe('TimelinePage Component', () => {
   it('renders the timeline list with calendar links', () => {

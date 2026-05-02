@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Header from './Header';
+import Header from '../../src/components/Header';
 
 describe('Header Component', () => {
   it('renders correctly and displays the title', () => {
@@ -30,7 +30,7 @@ describe('Header Component', () => {
       />
     );
     
-    const langBtn = screen.getByLabelText(/switch language/i);
+    const langBtn = screen.getByLabelText(/Switch language to Hindi/i);
     fireEvent.click(langBtn);
     expect(mockSetLanguage).toHaveBeenCalledWith('HI');
   });
@@ -48,7 +48,7 @@ describe('Header Component', () => {
       />
     );
     
-    const themeBtn = screen.getByLabelText(/toggle to dark mode/i);
+    const themeBtn = screen.getByLabelText(/Toggle to dark mode/i);
     fireEvent.click(themeBtn);
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
   });

@@ -10,8 +10,8 @@ dist
 .idea
 Dockerfile
 README.md
+tests
 coverage
-src/**/*.test.jsx
 src/setupTests.js
 vitest.config.js
 package-lock.json

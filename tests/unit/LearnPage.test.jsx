@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import LearnPage from './LearnPage';
+import LearnPage from '../../src/pages/LearnPage';
 
 describe('LearnPage Component', () => {
   it('renders learning topics and expands them on click', () => {

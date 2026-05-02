@@ -1,11 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import HomePage from './HomePage';
+import HomePage from '../../src/pages/HomePage';
 
 describe('HomePage Component', () => {
-  it('renders the hero section with title and buttons', () => {
-    render(<HomePage onNavigate={vi.fn()} language="EN" />);
-    
   it('renders the hero section with title and buttons', () => {
     render(<HomePage onNavigate={vi.fn()} language="EN" />);
     
