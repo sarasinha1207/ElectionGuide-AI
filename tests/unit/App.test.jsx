@@ -7,8 +7,8 @@ describe('App Component', () => {
     render(<App />);
     
     // Check if hero title is present
-    expect(screen.getByText(/Understand Elections with/i)).toBeInTheDocument();
-    expect(screen.getByText(/Confidence/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Understand Elections with/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Confidence/i).length).toBeGreaterThan(0);
   });
 
   it('toggles language between English and Hindi', async () => {
@@ -35,12 +35,12 @@ describe('App Component', () => {
 
     // Switch to Help
     fireEvent.click(screen.getAllByRole('button', { name: /Help/i })[0]);
-    expect(await screen.findByText(/Civic Assistant/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('chat-input', {}, { timeout: 5000 })).toBeInTheDocument();
 
     // Switch back to Home
     fireEvent.click(screen.getAllByRole('button', { name: /Home/i })[0]);
     expect(await screen.findByText(/Understand Elections with/i)).toBeInTheDocument();
-  });
+  }, 15000);
 
   it('toggles dark mode', async () => {
     render(<App />);

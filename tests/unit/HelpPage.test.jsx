@@ -59,9 +59,9 @@ describe('HelpPage Component', () => {
     fireEvent.click(chatOptions[1]); 
     expect(screen.getAllByText("I am a first-time voter").length).toBeGreaterThan(0);
 
-    // Test clicking another greeting option
+    // Test clicking another option from the sidebar (since chat options disappear after first click)
     const boothBtns = screen.getAllByRole('button', { name: "Find polling booth" });
-    fireEvent.click(boothBtns[1]);
+    fireEvent.click(boothBtns[0]);
     expect(await screen.findByText(/Polling Booths Near You/i)).toBeInTheDocument();
   });
 
@@ -104,7 +104,7 @@ describe('HelpPage Component', () => {
   });
 
   it('handles API errors gracefully', async () => {
-    mockGenerateContent.mockRejectedValueOnce(new Error('API Failure'));
+    mockGenerateContent.mockRejectedValue(new Error('API Failure'));
 
     render(<HelpPage language="EN" />);
     const input = screen.getByPlaceholderText('Ask a question about voting...');
