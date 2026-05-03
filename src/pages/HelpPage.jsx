@@ -65,7 +65,6 @@ const HelpPage = ({ language = 'EN' }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [lastSentTime, setLastSentTime] = useState(0);
-  const [chatHistory, setChatHistory] = useState([]); // Context for Gemini
   const [userLocation, setUserLocation] = useState(null); // For Google Maps
 
   const RATE_LIMIT_MS = 2000;
@@ -162,49 +161,58 @@ const HelpPage = ({ language = 'EN' }) => {
     setIsLoading(true);
     window.trackEvent?.('chat_message_sent', { length: userMsg.length });
 
-    try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Models confirmed available for this API key (from models.json)
+    const modelsToTry = [
+      "gemini-2.5-flash",
+      "gemini-2.5-pro",
+      "gemini-2.5-flash-latest",
+    ];
 
-      // Create a contextual prompt using history
-      const historyText = chatHistory.map(h => `${h.role === 'user' ? 'User' : 'Assistant'}: ${h.text}`).join('\n');
-      const systemPrompt = `You are a helpful, knowledgeable, and concise Election Assistant for the Indian Election Commission.
-      Previous Context:
-      ${historyText}
-      
-      Current Question: "${userMsg}"
-      
-      Guidelines:
-      - Use structured responses with bullet points if applicable.
-      - Use bold text for key terms.
-      - If appropriate, add a short heading to your response.
-      - Keep it under 3 short paragraphs.
-      - Language: ${language === 'HI' ? 'Hindi' : 'English'}.
-      - Adjust response based on intent (First-time voter, NRI, address change, etc.).`;
+    let responseText = "";
+    let success = false;
+    const genAI = new GoogleGenerativeAI(apiKey);
 
-      const result = await model.generateContent(systemPrompt);
-      const responseText = result.response.text();
+    for (const modelName of modelsToTry) {
+      if (success) break;
+      try {
+        console.log(`Trying model: ${modelName}`);
+        const model = genAI.getGenerativeModel({ model: modelName });
+        const systemPrompt = `You are a helpful, knowledgeable, and concise Election Assistant for the Indian Election Commission.
 
-      setChatHistory(prev => [...prev, { role: 'user', text: userMsg }, { role: 'assistant', text: responseText }]);
+User Question: "${userMsg}"
 
+Guidelines:
+- Use structured responses with bullet points if applicable.
+- Use bold text for key terms.
+- Keep it under 3 short paragraphs.
+- Language: ${language === 'HI' ? 'Hindi' : 'English'}.`;
+
+        const result = await model.generateContent(systemPrompt);
+        responseText = result.response.text();
+        success = true;
+        console.log(`✅ Connected using: ${modelName}`);
+      } catch (error) {
+        console.warn(`❌ ${modelName} failed:`, error.message);
+      }
+    }
+
+    if (success) {
       setMessages(prev => [
         ...prev,
         { id: Date.now() + 1, sender: 'assistant', text: responseText }
       ]);
-    } catch (error) {
-      console.error("Gemini API Error:", error);
+    } else {
       setMessages(prev => [
         ...prev,
-        { 
-          id: Date.now() + 1, 
-          sender: 'assistant', 
-          text: "I'm sorry, I'm having trouble connecting to the AI. Please verify your connection or try these quick topics below.",
+        {
+          id: Date.now() + 1,
+          sender: 'assistant',
+          text: "I'm having trouble connecting. Please check your API key is enabled for Gemini in Google AI Studio.",
           options: t.options
         }
       ]);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   const messagesEndRef = useRef(null);
@@ -305,23 +313,15 @@ const HelpPage = ({ language = 'EN' }) => {
             </div>
             <div className="mt-4 flex items-center justify-between gap-4">
               <p className="text-slate-500 dark:text-slate-400 text-[13px]">{t.pollingBoothMap.desc}</p>
-              <div className="flex gap-2">
-                <a 
-                  href={directionsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => window.trackEvent?.('get_directions_click')}
-                  className="px-4 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-lg text-sm font-bold hover:bg-slate-50 transition-colors flex items-center gap-2"
-                >
-                  <MapPin size={14} /> Get Directions
-                </a>
-                <button 
-                  onClick={() => handleOptionClick('polling_booth', t.pollingBoothMap.title)}
-                  className="px-5 py-2.5 bg-[#0014CC] dark:bg-[#4d5fff] text-white rounded-lg text-sm font-bold shadow-sm hover:bg-blue-800 dark:hover:bg-[#3a48e6] transition-colors"
-                >
-                   {t.pollingBoothMap.btn}
-                </button>
-              </div>
+              <a 
+                href={directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => window.trackEvent?.('get_directions_click')}
+                className="px-4 py-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 rounded-lg text-sm font-bold hover:bg-slate-50 transition-colors flex items-center gap-2"
+              >
+                <MapPin size={14} /> Get Directions
+              </a>
             </div>
           </div>
         </div>
@@ -512,22 +512,6 @@ const HelpPage = ({ language = 'EN' }) => {
 
         {/* Chat Input */}
         <div className="px-12 py-6 bg-white dark:bg-slate-900 flex-shrink-0 w-full border-t border-slate-100 dark:border-slate-800 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-none transition-colors">
-          {/* Quick Suggestions */}
-          <div className="max-w-4xl mx-auto flex flex-wrap gap-2 mb-4 overflow-x-auto no-scrollbar">
-            {['How to vote', 'Check eligibility', 'Find polling booth', 'NRI Voting'].map(suggestion => (
-              <button
-                key={suggestion}
-                onClick={() => {
-                  setInputValue(suggestion);
-                  handleSendMessage();
-                }}
-                className="whitespace-nowrap px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-[13px] font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              >
-                {suggestion}
-              </button>
-            ))}
-          </div>
-
           <div className="max-w-4xl mx-auto flex gap-4 items-center">
             <div className="flex-1 relative">
               <input

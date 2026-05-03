@@ -38,7 +38,7 @@ export default function App() {
       />
 
       {/* Main Content */}
-      <main id="main-content" className="flex-1 w-full max-w-[1600px] mx-auto flex flex-col min-h-0" role="main">
+      <main id="main-content" className="flex-1 w-full max-w-[1600px] mx-auto flex flex-col overflow-hidden" role="main">
         <React.Suspense fallback={<PageLoader />}>
           {activeTab === 'home' && <HomePage onNavigate={setActiveTab} language={language} />}
           {activeTab === 'learn' && <LearnPage language={language} />}

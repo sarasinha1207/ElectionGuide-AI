@@ -3,7 +3,7 @@
 ElectionGuide AI is a premium, high-performance web application designed to educate first-time voters in India. Built with React 19 and Tailwind CSS 4, it leverages advanced Google Services to deliver an intelligent and interactive user experience.
 
 ## 🛠️ Advanced Google Services Integration
-- **Google Gemini 1.5 Flash (Context-Aware)**: Implemented a smart, session-based chatbot that maintains conversation history for coherent interactions. It uses intent-detection and specialized system prompts to provide structured, bulleted responses tailored to Indian electoral rules.
+- **Google Gemini 2.5 Flash (Context-Aware)**: Implemented a smart, session-based chatbot that maintains conversation history for coherent interactions. It uses intent-detection and specialized system prompts to provide structured, bulleted responses tailored to Indian electoral rules.
 - **Google Maps Platform (Interactive)**: Integrated browser geolocation to dynamically center maps on the user's location. Features interactive polling booth discovery with "Get Directions" deep-linking and responsive rendering.
 - **Google Calendar (Dynamic)**: Automated "Add to Calendar" functionality for critical dates like registration deadlines and voting days, with pre-filled event details, locations, and reminders.
 - **Google Analytics (Modular)**: Deployed lightweight `gtag.js` tracking for key interactions (chatbot usage, map directions, calendar syncs) without affecting page load performance.

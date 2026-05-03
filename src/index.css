@@ -21,8 +21,10 @@
     outline-offset: 2px;
   }
 
-  html {
+  html, body {
     scroll-behavior: smooth;
+    overflow: hidden;
+    height: 100%;
   }
 
   /* Ensure sufficient contrast for selection */
@@ -40,4 +42,13 @@
 
 .skip-link:focus {
   transform: translateY(0);
+}
+
+/* Force remove right side scrollbar for the entire application */
+html, body, #root {
+  overflow: hidden !important;
+  height: 100% !important;
+  width: 100% !important;
+  margin: 0;
+  padding: 0;
 }
