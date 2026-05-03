@@ -11,6 +11,19 @@
         VITE_GOOGLE_MAPS_API_KEY: "VITE_GOOGLE_MAPS_API_KEY_PLACEHOLDER"
       };
     </script>
+    
+    <!-- Google Maps Platform SDK -->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=VITE_GOOGLE_MAPS_API_KEY_PLACEHOLDER&libraries=places"></script>
+    
+    <!-- Google Analytics (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PLACEHOLDER', { 'send_page_view': true });
+      window.trackEvent = (name, params) => typeof gtag === 'function' && gtag('event', name, params);
+    </script>
   </head>
   <body>
     <div id="root"></div>

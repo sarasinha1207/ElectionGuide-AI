@@ -44,16 +44,33 @@ const TimelinePage = ({ language = 'EN' }) => {
                   <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{step.desc}</p>
                   
                   {/* Google Calendar Reminder Button */}
-                  <a
-                    href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(t.reminderTitle + ': ' + step.title)}&details=${encodeURIComponent(t.reminderDesc + step.desc)}&dates=20260515T090000Z/20260515T100000Z`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => {
+                      let eventTitle = t.reminderTitle + ': ' + step.title;
+                      let eventDate = '20260515T090000Z/20260515T100000Z';
+                      let eventDetails = t.reminderDesc + step.desc + "\n\nReminder: Make sure to carry your Voter ID!";
+                      
+                      // Customize for specific phases
+                      if (index === 1) { // Registration
+                        eventTitle = "Voter Registration Deadline";
+                        eventDate = "20260420T170000Z/20260420T180000Z";
+                      } else if (index === 3) { // Voting Day
+                        eventTitle = "ELECTION DAY - VOTE!";
+                        eventDate = "20260520T070000Z/20260520T180000Z";
+                        eventDetails += "\nPolling Hours: 7 AM to 6 PM";
+                      }
+
+                      window.trackEvent?.('calendar_click', { phase: index + 1, title: eventTitle });
+                      
+                      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&details=${encodeURIComponent(eventDetails)}&dates=${eventDate}`;
+                      window.open(url, '_blank');
+                    }}
                     aria-label={`${t.reminderBtn} for ${step.title}`}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-lg transition-colors border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-[#0014CC]"
                   >
                     <CalendarDays size={16} className="text-[#0014CC] dark:text-[#4d5fff]" aria-hidden="true" />
                     {t.reminderBtn}
-                  </a>
+                  </button>
                 </div>
 
                 {/* Success Checkmark overlay (simulating progress) */}
